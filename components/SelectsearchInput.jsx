@@ -149,7 +149,7 @@ const SelectsearchInput = ({
           />
         </div>
         {(options.length > searchbarTreshold && open) &&
-          <div className="w-full sticky py-2 z-20 bg-foreground h-full ">
+          <div className="w-[102%] px-1 sticky pt-2 pb-1 z-20 bg-foreground h-full ">
             <FilterList
               list={options}
               setList={setOptList}
@@ -169,9 +169,9 @@ const SelectsearchInput = ({
           </div>
         }
         <ul
-          className={`bg-foreground overflow-y-auto absolute z-10 w-full text-sm rounded-[4px] customshadow right-0 ${
+          className={`bg-foreground overflow-y-auto absolute z-10 w-full text-sm rounded-[4px] customshadow right-0 rounded-t-none ${
             open ? "max-h-40 p-2" : "max-h-0"
-          } ${direction === "up" ? "bottom-14" : "top-16"}`}
+          } ${direction === "up" ? "bottom-14" : options.length > searchbarTreshold? "top-[4.5rem]" : "top-9"}`}
         >
           {
             canAddNewOption &&

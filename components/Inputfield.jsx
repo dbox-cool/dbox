@@ -55,7 +55,7 @@ export const Inputfield = ({options, canAddNewOption, registerOptions, direction
           {...register(id, registerOptions)}
         /> 
     }
-  }, [type, id, defaultValues[id], currentValue]);
+  }, [type, id, defaultValues[id], currentValue, options]);
 
   return (
     <div className={cn("w-full", className)}>
