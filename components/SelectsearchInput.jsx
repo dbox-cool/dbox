@@ -115,7 +115,7 @@ const SelectsearchInput = ({
         </Button>
       </div>
       
-      <div className={`input text-text inline-flex h-full w-full flex-1 items-center justify-between rounded-[4px] text-sm leading-none outline-none border-background border-2 relative ${(canAddNewOption && inputNewOpt)? "hidden":"inline-flex"}`} ref={selectRef}>
+      <div className={`input text-text inline-flex flex-col h-full w-full flex-1 items-center justify-between rounded-[4px] text-sm leading-none outline-none border-background border-2 relative ${(canAddNewOption && inputNewOpt)? "hidden":"inline-flex"}`} ref={selectRef}>
         <div
           onClick={() => {
             if (
@@ -148,31 +148,31 @@ const SelectsearchInput = ({
             } size-6 text-primary`}
           />
         </div>
+        {(options.length > searchbarTreshold && open) &&
+          <div className="w-full sticky py-2 z-20 bg-foreground h-full ">
+            <FilterList
+              list={options}
+              setList={setOptList}
+              ref={searchbarRef}
+              filterList={
+                (oldList, filterValue) => 
+                  oldList
+                    .filter( 
+                      item => 
+                        typeof item == "string"?
+                          normalize(item).includes(filterValue)
+                        :
+                          normalize(item.label).includes(filterValue)
+                    )
+              }
+            />
+          </div>
+        }
         <ul
           className={`bg-foreground overflow-y-auto absolute z-10 w-full text-sm rounded-[4px] customshadow right-0 ${
             open ? "max-h-40 p-2" : "max-h-0"
-          } ${direction === "up" ? "bottom-14" : "top-10"}`}
+          } ${direction === "up" ? "bottom-14" : "top-16"}`}
         >
-          {(options.length > searchbarTreshold) &&
-            <div className="w-full sticky -top-2 pt-2 z-20 bg-foreground">
-              <FilterList
-                list={options}
-                setList={setOptList}
-                ref={searchbarRef}
-                filterList={
-                  (oldList, filterValue) => 
-                    oldList
-                      .filter( 
-                        item => 
-                          typeof item == "string"?
-                            normalize(item).includes(filterValue)
-                          :
-                            normalize(item.label).includes(filterValue)
-                      )
-                }
-              />
-            </div>
-          }
           {
             canAddNewOption &&
             <li
