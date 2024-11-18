@@ -5,13 +5,14 @@ import SelectsearchInput from "./SelectsearchInput";
 import { PrefixInput } from "./PrefixInput";
 import { PasswordInput } from "./PasswordInput";
 import { forwardRef } from "react";
+import { RadioInput } from "./RadioInput";
 
 /**
  * @typedef {object} InputfieldProps
  * @property {import("react-hook-form").RegisterOptions<import("react-hook-form").FieldValues, any>} registerOptions
  * @property {"horizontal"|"vertical"} direction
  * @property {Element} button
- * @property {React.HTMLInputTypeAttribute|"select"|"textarea"|"ci"|"phone"} type
+ * @property {React.HTMLInputTypeAttribute|"select"|"textarea"|"ci"|"phone"|"radio"} type
  * @property {string[]|{value: string, label: string}[]|undefined} options
  * @property {boolean?} canAddNewOption
  */
@@ -28,7 +29,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
     formState:{errors, defaultValues}
   } = useFormContext();
   
-  const currentValue = (type=="select" || type=="ci" || type=="phone")?watch(id):undefined;
+  const currentValue = (type=="select" || type=="ci" || type=="phone" || type=="radio")?watch(id):undefined;
   
   useEffect( () => {if(onChange)onChange(currentValue)}, [currentValue] );
   
@@ -78,6 +79,14 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
           setSelectedOption={value=>setValue(id, value)}
           ref={ref}
           {...register(id, registerOptions)}
+          {...props}
+        />
+      case "radio":
+        return <RadioInput
+          options={options??[]}
+          id={id}
+          value={currentValue}
+          setValue={value=>setValue(id, value)}
           {...props}
         />
       default:

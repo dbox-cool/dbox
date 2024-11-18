@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { cn } from "@/dbox/utils/cn";
 import { useEffect, useState, forwardRef, useMemo } from "react";
 
@@ -12,7 +13,7 @@ import { useEffect, useState, forwardRef, useMemo } from "react";
  */
 
 /** @type {React.FC<PrefixInputProps | import("react").InputHTMLAttributes>}  */
-export const PrefixInput = forwardRef( function PrefixInputComponent({id, value, setValue, className, disabled, prefixes=["V", "E"], defaultPrefix, ...props}, ) {
+export const PrefixInput = forwardRef( function PrefixInputComponent({id, value, setValue, className, disabled, prefixes=["V", "E"], defaultPrefix, ...props}, ref) {
   
   const prefixSize = useMemo( () => prefixes[0].length, [prefixes]);
   const [prefix, setPrefix] = useState(value?value.slice(0, prefixSize):defaultPrefix??prefixes[0]);
