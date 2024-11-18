@@ -44,7 +44,7 @@ const itoa = (n) => {
  */
 const normalize = 
   str => 
-    str
+    !str? undefined : str
       .split(" ")
       .join("")
       .toUpperCase()
