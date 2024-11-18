@@ -2,15 +2,16 @@ import { cn } from "@/dbox/utils/cn";
 import { useEffect, useState, forwardRef, useMemo } from "react";
 
 /**
- * @param {object} props 
- * @param {string} props.id 
- * @param {string} props.value 
- * @param {(newValue: string)=>void} props.setValue 
- * @param {string[]} props.prefixes
- * @param {string} props.defaultPrefix
- * @param {boolean} props.disabled
- * @returns {Element}
+ * @typedef {object} PrefixInputProps
+ * @property {string} id 
+ * @property {string} value 
+ * @property {(newValue: string)=>void} setValue 
+ * @property {string[]} prefixes
+ * @property {string} defaultPrefix
+ * @property {boolean} disabled
  */
+
+/** @type {React.FC<PrefixInputProps | import("react").InputHTMLAttributes>}  */
 export const PrefixInput = forwardRef( function PrefixInputComponent({id, value, setValue, className, disabled, prefixes=["V", "E"], defaultPrefix, ...props}, ) {
   
   const prefixSize = useMemo( () => prefixes[0].length, [prefixes]);
