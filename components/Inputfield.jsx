@@ -1,7 +1,7 @@
 import { cn } from "@/dbox/utils/cn"
 import { useMemo, useEffect } from "react";
 import { useFormContext } from "react-hook-form"
-import SelectsearchInput from "./SelectsearchInput";
+import {SelectsearchInput} from "./SelectsearchInput";
 import { PrefixInput } from "./PrefixInput";
 import { PasswordInput } from "./PasswordInput";
 import { forwardRef } from "react";
@@ -31,9 +31,10 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
   
   const currentValue = (type=="select" || type=="ci" || type=="phone" || type=="radio")?watch(id):undefined;
   
-  useEffect( () => {if(onChange)onChange(currentValue)}, [currentValue] );
+  useEffect( () => {if(onChange)onChange({target:{value:currentValue}})}, [currentValue] );
   
   const inputElement = useMemo( () => {
+    
     switch (type) {
       case "textarea":
         return  <textarea

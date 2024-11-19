@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef, useMemo } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { IoIosCheckmark } from "react-icons/io";
@@ -5,32 +6,26 @@ import { normalize } from "@/dbox/utils/string";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import Button from "@/dbox/components/Button";
 import { FilterList } from "@/dbox/components/FilterList";
+import { forwardRef } from "react";
 
 /**
  * @typedef {object} SelectSearchProps
  * @property {string[]|{value:string, label:string}[]} options array of options to be displayed in the dropdown menu
  * @property {string} selectedOption current selected option (should be a state)
  * @property {(newSelectedOption: string)=>void} setSelectedOption setter of the `selectedOption` state
- * @property {string} [placeholder] what will be displayed while there's no current selection
+ * @property {string?} placeholder what will be displayed while there's no current selection
  * @property {'up' | 'down'} [direction] direction of the dropdown menu
  * @property {boolean} canAddNewOption
  * @property {number} searchbarTreshold
+ * @property {boolean} disabled
  */
 
 /**
  * @param {SelectSearchProps} props
  * @returns {import("react").ReactNode}
  */
-const SelectsearchInput = ({
-  options,
-  selectedOption,
-  setSelectedOption,
-  placeholder,
-  direction = "down",
-  onChange,
-  canAddNewOption = false,
-  searchbarTreshold=5
-}) => {
+
+export const SelectsearchInput = forwardRef( function SelectsearchInputComponent ({ options, selectedOption, setSelectedOption, placeholder, direction = "down", onChange, canAddNewOption = false, searchbarTreshold=5, disabled}, ref) {
   // handle open/close
   const [open, setOpen] = useState(false);
   
@@ -47,11 +42,12 @@ const SelectsearchInput = ({
   
   const displayValue = useMemo( 
     () => {
+
       if(!options || !options.length)
         return "No hay opciones...";
 
-      if(!selectedOption)
-        return placeholder || "Selecciona una opción...";
+      if(!selectedOption || selectedOption.trim() == "")
+        return placeholder??"Selecciona una opción...";
 
       if(typeof options[0] == "string")
         return typeof selectedOption == "string"? selectedOption:selectedOption.value;
@@ -63,17 +59,14 @@ const SelectsearchInput = ({
 
   // simulate onChange
   useEffect(() => {
-    if (onChange) onChange();
+    if (onChange) onChange({target:{value:selectedOption}});
   }, [selectedOption]);
   
   // close if no options
   useEffect(() => {
-    if (
-      (Array.isArray(options) && options.length === 0) ||
-      Object.keys(options).length === 0
-    ) {
+    setOptList(options);
+    if (options.length === 0)
       setOpen(false);
-    }
   }, [options]);  
   
   // close if click outside
@@ -100,6 +93,7 @@ const SelectsearchInput = ({
           ref={newOptRef}
           className=" rounded-r-none h-full border-r-0 w-full px-2"
           onChange={ e => setSelectedOption( e.target.value ) }
+          disabled={disabled}
         />
         <Button
           type="button"
@@ -110,6 +104,7 @@ const SelectsearchInput = ({
             setInputNewOpt(false);
           } }
           className="w-fit px-2 h-[35px] rounded-l-none border-background border-2 border-l-0"
+          disabled={disabled}
         >
           <RiArrowGoBackFill/>
         </Button>
@@ -118,10 +113,7 @@ const SelectsearchInput = ({
       <div className={`input text-text inline-flex flex-col h-full w-full flex-1 items-center justify-between rounded-[4px] text-sm leading-none outline-none border-background border-2 relative ${(canAddNewOption && inputNewOpt)? "hidden":"inline-flex"}`} ref={selectRef}>
         <div
           onClick={() => {
-            if (
-              (Array.isArray(options) && options.length > 0) ||
-              Object.keys(options).length > 0
-            ) {
+            if (options.length > 0 && !disabled) {
               setOpen(!open);
               searchbarRef.current?.focus();
             }
@@ -129,16 +121,7 @@ const SelectsearchInput = ({
           className={`flex justify-between items-center w-full h-full ${((Array.isArray(options) && options.length > 0) || Object.keys(options).length > 0) && "hover:cursor-pointer"}`}
         >
           <p
-            className={`text-text text-sm line-clamp-1
-                  ${
-                    !selectedOption || // Condition for no selected option
-                    (typeof selectedOption === "object" &&
-                      Object.keys(selectedOption).length === 0) ||
-                    (typeof selectedOption === "string" &&
-                      selectedOption.length === 0)
-                      ? "text-text/30"
-                      : ""
-                  }`}
+            className={`text-sm line-clamp-1 ${ !selectedOption? "text-text/30":"text-text"}`}
           >
             {displayValue}
           </p>
@@ -213,6 +196,4 @@ const SelectsearchInput = ({
       </div>
     </div>
   );
-};
-
-export default SelectsearchInput;
+});
