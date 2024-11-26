@@ -2,16 +2,17 @@ import { FormProvider } from "react-hook-form"
 
 /**
  * @param {object} props
- * @param {Element} children
- * @param {import("react-hook-form").UseFormReturn<object>} methods
- * @param {(data: object, e: Event?)=>Promise<void>} onSubmit
- * @param {(data: object, e: Event?)=>Promise<void>} onError
+ * @param {import('react').ReactNode} props.children
+ * @param {import("react-hook-form").UseFormReturn<object>} props.methods
+ * @param {import("react-hook-form").SubmitHandler<any>} props.onSubmit
+ * @param {import("react-hook-form").SubmitErrorHandler<any>} props.onError
 */
-export const Form = ({children, methods, onSubmit, onError}) => {
+export const Form = ({children, methods, onSubmit, onError, ...props}) => {
   return (
     <FormProvider {...methods}>
-      <form 
+      <form
         onSubmit={methods.handleSubmit(onSubmit, onError)} 
+        {...props}
       >
         {children}
       </form>
