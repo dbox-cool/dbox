@@ -4,10 +4,11 @@ import { cn } from "@/dbox/utils/cn";
 /**
  * Loading spinner animated
  * @param {object} props
- * @param {string} props.variant default | accent
+ * @param {"default"|"accent"} props.variant
  * @param {"sm" | "default" | "lg"} props.size 
  * @param {string} props.className tw classes
- * @returns {HTMLDivElement}
+ * @param {import("react").ReactNode} props.children
+ * @returns {import("react").ReactNode}
  */
 
 export const Loading = ({ variant, size, className, children }) => {

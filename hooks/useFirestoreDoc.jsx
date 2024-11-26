@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 
 /**
- * @template T
+ * @template [T=object]
  * @typedef {import("@tanstack/react-query").UseMutateAsyncFunction< {docRef: import("firebase/firestore").DocumentReference<import("firebase/firestore").DocumentData, import("firebase/firestore").DocumentData>; docData:T;}, Error, {docData: T; options: {merge:boolean;};}, unknown >} useFirestoreDocUpdateFuncType
 */
 
@@ -25,7 +25,7 @@ import { useState, useEffect } from "react";
 /**
  * @template [T=object]
  * @param {string} path
- * @param {{fetch: boolean, new: boolean}} conf
+ * @param {{fetch: boolean, new: boolean}|any} conf
  * @returns {useFirestoreDocReturn<T>}
 */
 export const useFirestoreDoc = (path, conf={fetch:true, new:false}) => {
@@ -42,7 +42,7 @@ export const useFirestoreDoc = (path, conf={fetch:true, new:false}) => {
   const {data, isLoading, error, refetch:refetchOriginalQuery} = useQuery({
     queryKey: [path, ...path.split("/")],
     queryFn: async () => {
-
+      
       if(!conf.fetch || conf.new)
         return {};
 
