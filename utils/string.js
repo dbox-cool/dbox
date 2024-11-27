@@ -10,7 +10,7 @@ const capitalizeAll = (str) => {
 
   let strArr = str.trim().toLowerCase().split(" ");
   for (let i = 0; i < strArr.length; i++) 
-    if(strArr.length)
+    if(strArr[i].length)
       strArr[i] = String(strArr[i][0]).toUpperCase() + strArr[i].substring(1);
 
   // Join the modified array of words back into a string
