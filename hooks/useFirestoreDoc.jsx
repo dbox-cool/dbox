@@ -4,20 +4,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 
 /**
- * @template [T=object]
- * @typedef {import("@tanstack/react-query").UseMutateAsyncFunction< {docRef: import("firebase/firestore").DocumentReference<import("firebase/firestore").DocumentData, import("firebase/firestore").DocumentData>; docData:T;}, Error, {docData: T; options: {merge:boolean;};}, unknown >} useFirestoreDocUpdateFuncType
-*/
-
-/**
  * @template T
  * @typedef {object} useFirestoreDocReturn
  * @property {import("firebase/firestore").DocumentData | undefined | T} data
  * @property {import("firebase/firestore").DocumentReference|string} ref
  * @property {boolean} fetching
  * @property {()=>Promise<void>} refetch
- * @property {useFirestoreDocUpdateFuncType<T>} update
- * @property {useFirestoreDocUpdateFuncType<T>} nonBlockUpdate
- * @property {useFirestoreDocUpdateFuncType<T>} overwrite
+ * @property {({docData:T, options: import("firebase/firestore").SetOptions})=>Promise<void>} update
+ * @property {({docData:T, options: import("firebase/firestore").SetOptions})=>Promise<void>} nonBlockUpdate
+ * @property {({docData:T, options: import("firebase/firestore").SetOptions})=>Promise<void>} overwrite
  * @property {Error?} error
  * @property {()=>Promise<void>} remove
 */
@@ -71,8 +66,6 @@ export const useFirestoreDoc = (path, conf={fetch:true, new:false}) => {
 
     /** 
      * @param {object} props
-     * @param {object} props.docData 
-     * @param {{merge: boolean}} props.options 
      * @returns 
      */
     mutationFn: async ({docData, options = {merge: true}}) => {
@@ -91,8 +84,6 @@ export const useFirestoreDoc = (path, conf={fetch:true, new:false}) => {
 
     /** 
      * @param {object} props
-     * @param {object} props.docData 
-     * @param {{merge: boolean}} props.options 
      * @returns 
      */
     mutationFn: async ({docData, options = {merge: true}}) => {
@@ -111,8 +102,6 @@ export const useFirestoreDoc = (path, conf={fetch:true, new:false}) => {
 
     /** 
      * @param {object} props
-     * @param {object} props.docData 
-     * @param {{merge: boolean}} props.options 
      * @returns 
      */
     mutationFn: async ({docData, options = {merge: false}}) => {

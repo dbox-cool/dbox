@@ -3,15 +3,15 @@ import { cn } from "@/dbox/utils/cn";
 
 /**
  * Loading spinner animated
+ * @component
  * @param {object} props
- * @param {"default"|"accent"} props.variant
- * @param {"sm" | "default" | "lg"} props.size 
- * @param {string} props.className tw classes
- * @param {import("react").ReactNode} props.children
- * @returns {import("react").ReactNode}
+ * @param {"default"|"accent"} [props.variant]
+ * @param {"sm" | "default" | "lg"} [props.size] 
+ * @param {string} [props.className] tw classes
+ * @param {import("react").ReactNode|string} [props.children]
  */
 
-export const Loading = ({ variant, size, className, children }) => {
+export const Loading = ({ variant="default", size="default", className="", children }) => {
   const loadingVariants = cva("inline ", {
     variants: {
       variant: {

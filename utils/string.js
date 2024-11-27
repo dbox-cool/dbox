@@ -44,16 +44,19 @@ const itoa = (n) => {
  */
 const normalize = 
   str => 
-    !str? undefined : str
-      .split(" ")
-      .join("")
-      .toUpperCase()
-      .trim()
-      .replace("Á","A")
-      .replace("É","E")
-      .replace("Í","I")
-      .replace("Ó","O")
-      .replace("Ú","U")
+    !str || typeof str != "string"?
+      undefined
+      :
+      str
+        .split(" ")
+        .join("")
+        .toUpperCase()
+        .trim()
+        .replace("Á","A")
+        .replace("É","E")
+        .replace("Í","I")
+        .replace("Ó","O")
+        .replace("Ú","U")
 
 /**
  * compares to strings to determine if they are the same-ish word or phrase

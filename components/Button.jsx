@@ -46,7 +46,7 @@ const buttonVariants = cva(
 );
 
 /**
- * @typedef  {object} ButtonProps
+ * @typedef  {object|HTMLButtonElement} ButtonProps
  * @property {string}  className tw clases
  * @property {"default" | "destructive" | "outline" | "secondary" | "ghost" | "link"}  variant default | destructive | outline | secondary | ghost | link
  * @property {"default" | "outline" | "outline-destructive"}  hover default | outline | (TODO: destructive | secondary | ghost | link )
