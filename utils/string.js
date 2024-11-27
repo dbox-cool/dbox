@@ -4,21 +4,17 @@
  * @returns 
  */
 const capitalizeAll = (str) => {
-
+  
   if(!str || str == "")
     return "";
 
-  // Split the input string into an array of words
-  str = str.toLowerCase().trim().split(" ");
-
-  // Iterate through each word in the array
-  for (var i = 0, x = str.length; i < x; i++) {
-    // Capitalize the first letter of each word and concatenate it with the rest of the word
-    str[i] = String(str[i][0]).toUpperCase() + str[i].substring(1);
-  }
+  let strArr = str.trim().toLowerCase().split(" ");
+  for (let i = 0; i < strArr.length; i++) 
+    if(strArr.length)
+      strArr[i] = String(strArr[i][0]).toUpperCase() + strArr[i].substring(1);
 
   // Join the modified array of words back into a string
-  return str.join(" ");
+  return strArr.filter(s => s.length && s!="UNDEFINED").join(" ");
 };
 
 const capitalizeFirst = (str) => {
