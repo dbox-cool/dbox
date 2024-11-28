@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { getDocs, collection, orderBy, query, limit, startAfter, doc, setDoc, addDoc, deleteDoc, endBefore, where, getDoc, documentId, writeBatch, limitToLast } from "firebase/firestore";
+import { getDocs, collection, orderBy, query, limit, startAfter, doc, setDoc, addDoc, deleteDoc, endBefore, where, getDoc, documentId, writeBatch, limitToLast, onSnapshot } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRef, useEffect, useState } from "react";
@@ -22,6 +22,7 @@ import firestore from "@/services/firestore";
  * @property {import("firebase/firestore").QueryConstraintType[]} [queryConstraints]
  * @property {number} [batchSize]
  * @property {QueryFilterType[]?} filters
+ * @property {boolean} [listen]
 */
 
 /**
@@ -50,7 +51,7 @@ import firestore from "@/services/firestore";
  * @param {QuerySpecsType?} querySpecs
  * @returns {useFirestoreQueryReturn}
 */
-export const useFirestoreQuery = (path, { orderByField, orderByDirection = "desc", queryConstraints=[], batchSize=-1, filters=[], fetch=true }) => {
+export const useFirestoreQuery = (path, { orderByField, orderByDirection = "desc", queryConstraints=[], batchSize=-1, filters=[], fetch=true, listen=false }) => {
 
   /** 
    * Manage React query client
@@ -87,6 +88,12 @@ export const useFirestoreQuery = (path, { orderByField, orderByDirection = "desc
 
   const [searchParams, setSearchParams] = useSearchParams();
   
+  const [unsubListener, setUnsubListener] = useState(undefined);
+  useEffect( () => {
+    if(unsubListener)
+      return ()=>unsubListener();
+  }, [unsubListener, listen])
+
   /**
    * Current displayed page
    * @type {number}
@@ -235,8 +242,13 @@ export const useFirestoreQuery = (path, { orderByField, orderByDirection = "desc
           qConstraints.push(limitToLast(batchSize));
       }
     }
-
-    const docSnap = await getDocs(query(collectionRef, ...qConstraints));
+    
+    const q = query(collectionRef, ...qConstraints);
+    const docSnap = await getDocs(q);
+    if(listen && !unsubListener)
+      setUnsubListener( () => onSnapshot(q, ()=>refetchOriginalQuery()) )
+      // setUnsubListener( () => onSnapshot(q, ()=>queryClient.invalidateQueries({queryKey: [path]})) )
+      
     
     if(docSnap.empty){
       return [];
@@ -277,7 +289,7 @@ export const useFirestoreQuery = (path, { orderByField, orderByDirection = "desc
         console.error(`error fetching firestore query ${path}:`, error)
         return [];
       }
-    }
+    },
   });
 
   const {mutateAsync: addDocument, isPending: loadingAdd} = useMutation({
