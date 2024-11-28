@@ -107,7 +107,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
       <fieldset className={cn("flex items-center gap-3", direction=="vertical"?"flex-col":"flex-row")}>
         {
           children &&
-          <label className={cn("text-text text-sm", direction=="vertical"?"w-full text-left":"w-1/4 text-right")} htmlFor={id}>
+          <label className={cn("text-text text-sm h-[35px] flex", direction=="vertical"?"items-end w-full justify-start":"items-center w-1/4 justify-end")} htmlFor={id}>
             {children}
           </label>
         }

@@ -7,6 +7,7 @@ import { RiArrowGoBackFill } from "react-icons/ri";
 import Button from "@/dbox/components/Button";
 import { FilterList } from "@/dbox/components/FilterList";
 import { forwardRef } from "react";
+import { cn } from "../utils/cn";
 
 /**
  * @typedef {object} SelectSearchProps
@@ -16,7 +17,7 @@ import { forwardRef } from "react";
  * @property {string?} placeholder what will be displayed while there's no current selection
  * @property {'up' | 'down'} [direction] direction of the dropdown menu
  * @property {boolean} canAddNewOption
- * @property {number} searchbarTreshold
+ * @property {number} searchbarThreshold
  * @property {boolean} disabled
  */
 
@@ -25,7 +26,10 @@ import { forwardRef } from "react";
  * @returns {import("react").ReactNode}
  */
 
-export const SelectsearchInput = forwardRef( function SelectsearchInputComponent ({ options, selectedOption, setSelectedOption, placeholder, direction = "down", onChange, canAddNewOption = false, searchbarTreshold=5, disabled}, ref) {
+export const SelectsearchInput = forwardRef( function SelectsearchInputComponent ({ options, selectedOption, setSelectedOption, placeholder, direction = "down", onChange, canAddNewOption = false, searchbarThreshold=5, disabled}, ref) {
+
+  const inputClassName = cn("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2");
+
   // handle open/close
   const [open, setOpen] = useState(false);
   
@@ -110,7 +114,8 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
         </Button>
       </div>
       
-      <div className={`input text-text inline-flex flex-col h-full w-full flex-1 items-center justify-between rounded-[4px] text-sm leading-none outline-none border-background border-2 relative ${(canAddNewOption && inputNewOpt)? "hidden":"inline-flex"}`} ref={selectRef}>
+      <div className={cn(inputClassName, `input text-text inline-flex flex-col flex-1 items-center justify-between rounded-[4px] text-sm leading-none outline-none border-background border-2 relative ${(canAddNewOption && inputNewOpt)? "hidden":"inline-flex"}`)} ref={selectRef}>
+
         <div
           onClick={() => {
             if (options.length > 0 && !disabled) {
@@ -118,7 +123,7 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
               searchbarRef.current?.focus();
             }
           }}
-          className={`flex justify-between items-center w-full h-full ${((Array.isArray(options) && options.length > 0) || Object.keys(options).length > 0) && "hover:cursor-pointer"}`}
+          className={cn(`flex justify-between items-center w-full h-full ${((Array.isArray(options) && options.length > 0) || Object.keys(options).length > 0) && "hover:cursor-pointer"}`)}
         >
           <p
             className={`text-sm line-clamp-1 ${ !selectedOption? "text-text/30":"text-text"}`}
@@ -131,8 +136,9 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
             } size-6 text-primary`}
           />
         </div>
-        {(options.length > searchbarTreshold && open) &&
-          <div className="w-[102%] px-1 sticky pt-2 pb-1 z-20 bg-foreground h-full ">
+
+        {(options.length > searchbarThreshold && open) &&
+          <div className="w-[105%] px-1 sticky pt-3 pb-1 z-20 bg-foreground h-20 ">
             <FilterList
               list={options}
               setList={setOptList}
@@ -154,7 +160,7 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
         <ul
           className={`bg-foreground overflow-y-auto absolute z-10 w-full text-sm rounded-[4px] customshadow right-0 rounded-t-none ${
             open ? "max-h-40 p-2" : "max-h-0"
-          } ${direction === "up" ? "bottom-14" : options.length > searchbarTreshold? "top-[4.5rem]" : "top-9"}`}
+          } ${direction === "up" ? "bottom-10" : options.length > searchbarThreshold? "top-[4.5rem]" : "top-8"}`}
         >
           {
             canAddNewOption &&
