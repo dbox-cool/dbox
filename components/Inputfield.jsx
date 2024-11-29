@@ -15,11 +15,12 @@ import { Multiselect } from "./Multiselect";
  * @property {Element} button
  * @property {React.HTMLInputTypeAttribute|"multiselect"|"select"|"textarea"|"ci"|"phone"|"radio"} type
  * @property {string[]|{value: string, label: string}[]|undefined} options
+ * @property {string} [labelClassName]
  * @property {boolean?} canAddNewOption
  */
 
 /** @type {React.FC<InputfieldProps | import("react").InputHTMLAttributes>}  */
-export const Inputfield = forwardRef( function InputFieldComponent ({options, canAddNewOption, registerOptions, direction="vertical", renderError=true, children, id, button, className, onChange, type, ...props}, ref) {
+export const Inputfield = forwardRef( function InputFieldComponent ({options, canAddNewOption, registerOptions, direction="vertical", renderError=true, children, id, button, className, onChange, type, labelClassName, ...props}, ref) {
       
   const inputClassName = cn("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2", button?"rounded-l-none":"");
     
@@ -116,11 +117,11 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
       <fieldset className={cn("flex gap-3", direction=="vertical"?"flex-col items-center":"flex-row items-start")}>
         {
           children &&
-          <label className={cn("text-text text-sm h-[35px] flex", direction=="vertical"?"items-end w-full justify-start":"items-center w-1/4 justify-end")} htmlFor={id}>
+          <label className={cn("text-text text-sm h-[35px] flex", direction=="vertical"?"items-end w-full justify-start":"items-center w-1/4 justify-end", labelClassName)} htmlFor={id}>
             {children}
           </label>
         }
-        <div className={cn("flex", direction=="vertical"?"w-full":"w-3/4")}>
+        <div className={cn("flex grow", direction=="vertical"?"w-full":"")}>
           {button}
           {inputElement}
         </div>

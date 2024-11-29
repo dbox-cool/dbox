@@ -32,8 +32,8 @@ const buttonVariants = cva(
       },
       hover: {
         default: "",
-        outline:
-          "hover:bg-background hover:text-primary hover:border hover:border-primary",
+        outline: "hover:bg-background hover:text-primary hover:border hover:border-primary",
+        primary: "hover:bg-primary hover:text-background hover:border hover:border-primary",
         "outline-destructive": "hover:bg-background hover:text-destructive hover:border hover:border-destructive",
       },
     },
