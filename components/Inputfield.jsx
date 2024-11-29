@@ -6,13 +6,14 @@ import { PrefixInput } from "./PrefixInput";
 import { PasswordInput } from "./PasswordInput";
 import { forwardRef } from "react";
 import { RadioInput } from "./RadioInput";
+import { Multiselect } from "./Multiselect";
 
 /**
  * @typedef {object} InputfieldProps
  * @property {import("react-hook-form").RegisterOptions<import("react-hook-form").FieldValues, any>} registerOptions
  * @property {"horizontal"|"vertical"} direction
  * @property {Element} button
- * @property {React.HTMLInputTypeAttribute|"select"|"textarea"|"ci"|"phone"|"radio"} type
+ * @property {React.HTMLInputTypeAttribute|"multiselect"|"select"|"textarea"|"ci"|"phone"|"radio"} type
  * @property {string[]|{value: string, label: string}[]|undefined} options
  * @property {boolean?} canAddNewOption
  */
@@ -29,7 +30,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
     formState:{errors, defaultValues}
   } = useFormContext();
   
-  const currentValue = (type=="select" || type=="ci" || type=="phone" || type=="radio")?watch(id):undefined;
+  const currentValue = (type=="multiselect" || type=="select" || type=="ci" || type=="phone" || type=="radio")?watch(id):undefined;
   
   useEffect( () => {if(onChange)onChange({target:{value:currentValue}})}, [currentValue] );
   
@@ -90,6 +91,14 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
           setValue={value=>setValue(id, value)}
           {...props}
         />
+      case "multiselect":
+        return <Multiselect
+          id={id}
+          options={options}
+          value={currentValue}
+          setValue={value=>setValue(id, value)}
+          {...props}
+        />
       default:
         return <input
           className={type == "checkbox"? "size-4":inputClassName}
@@ -104,7 +113,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
   
   return (
     <div className={cn("w-full", className)}>
-      <fieldset className={cn("flex items-center gap-3", direction=="vertical"?"flex-col":"flex-row")}>
+      <fieldset className={cn("flex gap-3", direction=="vertical"?"flex-col items-center":"flex-row items-start")}>
         {
           children &&
           <label className={cn("text-text text-sm h-[35px] flex", direction=="vertical"?"items-end w-full justify-start":"items-center w-1/4 justify-end")} htmlFor={id}>

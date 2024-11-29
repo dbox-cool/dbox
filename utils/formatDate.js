@@ -90,4 +90,12 @@ function getTimeAsString(date) {
   return `${hours}:${minutes}`;
 }
 
-export {getTimeAsString,  calculateAge, formatDate, getWeekDates, getWeekOfMonth, getTimestamp, formatTimestamp };
+/**
+ * @param {Date} date
+ * @returns {string}
+*/
+function getYYYYMMDD(date){
+  return `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${(date.getDate()).toString().padStart(2, '0')}`;
+}
+
+export {getYYYYMMDD, getTimeAsString,  calculateAge, formatDate, getWeekDates, getWeekOfMonth, getTimestamp, formatTimestamp };
