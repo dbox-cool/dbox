@@ -2,21 +2,20 @@ import { useRef } from "react";
 import { cn } from "../utils/cn";
 import { FaX } from "react-icons/fa6";
 
-export const Multiselect = ({id, options, value, setValue}) => {
+export const Multiselect = ({id, value, setValue}) => {
 
   const inputClassName = cn("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2");
 
   /** @type {import("react").Ref<HTMLInputElement>} */
   const newOptRef = useRef(undefined);
 
-  console.log('multiselect',options, value, setValue, id);
-
   return (
-    <div className="w-full">
+    <div className="w-full" id={id}>
       <div className={cn(inputClassName, "w-full flex p-0")}>
         <input
           ref={newOptRef}
           className="grow focus:border-0 h-full rounded-l-[4px] pl-2"
+          placeholder="Escribe una nueva opción..."
         />
         <button
           className="w-6 border-l-2 h-full px-4 text-center rounded-r-[4px] justify-center items-center flex hover:text-lg"
