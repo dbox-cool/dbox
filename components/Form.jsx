@@ -25,8 +25,8 @@ export const Form = ({children, methods, onSubmit, onError, loadingPrompt, direc
 
   /** @type {FormfieldSpecType[]} */
   const formSpec = !isValidElement(children)?children:undefined;
-  console.log("form children",children)
-  console.log("form spec", isValidElement(children), formSpec)
+  // console.log("form children",children)
+  // console.log("form spec", isValidElement(children), formSpec)
 
   return (
     <FormProvider {...methods}>
@@ -57,6 +57,7 @@ export const Form = ({children, methods, onSubmit, onError, loadingPrompt, direc
                         type={field.type}
                         options={field.options??[]}
                         direction={direction}
+                        disabled={field?.disabled}
                       >
                         {field.label}
                       </Inputfield>
