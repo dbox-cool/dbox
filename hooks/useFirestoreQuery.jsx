@@ -276,7 +276,7 @@ export const useFirestoreQuery = (path, { orderByField, orderByDirection = "desc
   }
 
   const {data, isLoading: loadingFetch, error, refetch: refetchOriginalQuery} = useQuery({
-    queryKey: [path, page, `${orderByField} ${orderByDirection}`, queryConstraints, JSON.stringify(filters), searchParams.toString() ],
+    queryKey: [path, page, `${orderByField} ${orderByDirection}`, JSON.stringify(queryConstraints), JSON.stringify(filters), searchParams.toString() ],
     queryFn: async () => {
       try {
 
