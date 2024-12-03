@@ -21,7 +21,7 @@ import { normalize } from "../utils/string"
  * @param {string|undefined} props.loadingPrompt
  * @param {"vertical"|"horizontal"} [props.direction]
 */
-export const Form = ({children, methods, onSubmit, onError, loadingPrompt, direction="horizontal", ...props}) => {
+export const SmartForm = ({children, methods, onSubmit, onError, loadingPrompt, direction="horizontal", ...props}) => {
 
   /** @type {FormfieldSpecType[]} */
   const formSpec = !isValidElement(children)?children:undefined;
