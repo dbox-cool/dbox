@@ -56,7 +56,7 @@ export const SmartForm = ({children, methods, onSubmit, onError, loadingPrompt, 
                         id={field?.id??normalize(field.label)}
                         type={field.type}
                         options={field.options??[]}
-                        direction={direction}
+                        direction={field?.direction??direction}
                         disabled={field?.disabled}
                       >
                         {field.label}

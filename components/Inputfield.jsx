@@ -7,6 +7,8 @@ import { PasswordInput } from "./PasswordInput";
 import { forwardRef } from "react";
 import { RadioInput } from "./RadioInput";
 import { Multiselect } from "./Multiselect";
+import { AddressInput } from "./AddressInput";
+import { SelectsearchFirestoreInput } from "./SelectsearchFirestoreInput";
 
 /**
  * @typedef {object} InputfieldProps
@@ -14,7 +16,7 @@ import { Multiselect } from "./Multiselect";
  * @property {"horizontal"|"vertical"} direction
  * @property {Element} button
  * @property {React.HTMLInputTypeAttribute|"multiselect"|"select"|"textarea"|"ci"|"phone"|"radio"} type
- * @property {string[]|{value: string, label: string}[]|undefined} options
+ * @property {string[]|{value: string, label: string}[]|string|undefined} options
  * @property {string} [labelClassName]
  * @property {boolean?} canAddNewOption
  */
@@ -98,6 +100,16 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
           options={options}
           value={currentValue}
           setValue={value=>setValue(id, value)}
+          {...props}
+        />
+      case "addressvzla":
+        return <AddressInput id={id} {...props}/>
+      case "selectdocs":
+        return <SelectsearchFirestoreInput
+          canAddNewOption={canAddNewOption}
+          id={id}
+          ref={ref}
+          docPath={options}
           {...props}
         />
       default:
