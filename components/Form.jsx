@@ -1,6 +1,6 @@
 import { FormProvider } from "react-hook-form"
 import { Loading } from "./Loading"
-import { isValidElement } from "react"
+import { isValidElement, useMemo } from "react"
 import { Inputfield } from "./Inputfield"
 import { normalize } from "../utils/string"
 
@@ -24,8 +24,8 @@ import { normalize } from "../utils/string"
 export const SmartForm = ({children, methods, onSubmit, onError, loadingPrompt, direction="horizontal", ...props}) => {
 
   /** @type {FormfieldSpecType[]} */
-  const formSpec = !isValidElement(children)?children:undefined;
-  // console.log("form children",children)
+  const formSpec = useMemo(()=>!isValidElement(children)?children.filter(f=>f):undefined, [children]);
+  // console.log("form children",children,formSpec)
   // console.log("form spec", isValidElement(children), formSpec)
 
   return (
