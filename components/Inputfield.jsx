@@ -42,9 +42,10 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
     switch (type) {
       case "textarea":
         return  <textarea
-          className={inputClassName}
+          className={cn(inputClassName,"resize-none h-auto")}
           id={id}
           ref={ref}
+          rows="5"
           {...register(id, registerOptions)}
           {...props}
         />
@@ -113,6 +114,21 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
           {...props}
         />
       default:
+        if(type?.includes("group")){
+          const children_type = type.split("-")[0];
+          return <div id={id} className="grid w-full md:grid-cols-3 gap-3 grid-cols-2" >
+            {options.map( 
+              (child, i) => <input
+                className={type == "checkbox"? "size-4":inputClassName}
+                key={`${i}${child}`} 
+                type={children_type}
+                placeholder={child}
+                {...register(`${id}.${child}`)}
+              /> 
+            )}
+          </div>
+        }
+
         return <input
           className={type == "checkbox"? "size-4":inputClassName}
           id={id}
@@ -125,15 +141,15 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
   }, [type, id, defaultValues[id], options, currentValue]);
   
   return (
-    <div className={cn("w-full", className)}>
-      <fieldset className={cn("flex gap-3", direction=="vertical"?"flex-col items-center":"flex-row items-start")}>
+    <div className={cn("w-full h-full", className)}>
+      <fieldset className={cn("flex gap-3 h-full", direction=="vertical"?"flex-col items-center":"flex-row items-start")}>
         {
           children &&
           <label className={cn("text-text text-sm h-[35px] flex", direction=="vertical"?"items-end w-full justify-start":"items-center w-1/4 justify-end", labelClassName)} htmlFor={id}>
             {children}
           </label>
         }
-        <div className={cn("flex grow", direction=="vertical"?"w-full":"")}>
+        <div className={cn("flex grow h-full", direction=="vertical"?"w-full":"")}>
           {button}
           {inputElement}
         </div>

@@ -47,20 +47,23 @@ export const SmartForm = ({children, methods, onSubmit, onError, loadingPrompt, 
               :
               <>
                 {formSpec.map( (field, idx) => {
-                  if(field) ;
-                    return isValidElement(field)?
-                      field
-                      :
-                      <Inputfield 
+                  if(field){
+                    if(isValidElement(field))
+                      return field;
+                    else{
+                      const {id, label, options, direction: dirF, ...fieldProps} = field;
+                      return <Inputfield 
                         key={idx} 
-                        id={field?.id??normalize(field.label)}
-                        type={field.type}
-                        options={field.options??[]}
-                        direction={field?.direction??direction}
-                        disabled={field?.disabled}
+                        id={id??normalize(field.label)}
+                        options={options??[]}
+                        direction={dirF??direction}
+                        {...fieldProps}
                       >
-                        {field.label}
+                        {label}
                       </Inputfield>
+                    }
+
+                  }
                 })}
               </>
         }
