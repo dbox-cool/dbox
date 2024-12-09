@@ -15,18 +15,20 @@ import { normalize } from "../utils/string"
 /**
  * @param {object} props
  * @param {FormfieldSpecType[]|import("react").ReactNode} props.children
+ * @param {(key: string):import("react").ReactNode} [props.customInputMap]
  * @param {import("react-hook-form").UseFormReturn<object>} props.methods
  * @param {import("react-hook-form").SubmitHandler<any>} props.onSubmit
  * @param {import("react-hook-form").SubmitErrorHandler<any>} props.onError
  * @param {string|undefined} props.loadingPrompt
  * @param {"vertical"|"horizontal"} [props.direction]
 */
-export const SmartForm = ({children, methods, onSubmit, onError, loadingPrompt, direction="horizontal", ...props}) => {
+export const SmartForm = ({customInputMap, children, methods, onSubmit, onError, loadingPrompt, direction="horizontal", ...props}) => {
 
   /** @type {FormfieldSpecType[]} */
   const formSpec = useMemo(()=>!isValidElement(children)?children.filter(f=>f):undefined, [children]);
   // console.log("form children",children,formSpec)
   // console.log("form spec", isValidElement(children), formSpec)
+  console.log("inputmap", customInputMap)
 
   return (
     <FormProvider {...methods}>
@@ -51,12 +53,14 @@ export const SmartForm = ({children, methods, onSubmit, onError, loadingPrompt, 
                     if(isValidElement(field))
                       return field;
                     else{
-                      const {id, label, options, direction: dirF, ...fieldProps} = field;
+                      const {type, id, label, options, direction: dirF, ...fieldProps} = field;
                       return <Inputfield 
                         key={idx} 
                         id={id??normalize(field.label)}
                         options={options??[]}
                         direction={dirF??direction}
+                        type={type}
+                        customInputMap={customInputMap}
                         {...fieldProps}
                       >
                         {label}

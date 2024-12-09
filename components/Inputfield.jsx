@@ -9,6 +9,7 @@ import { RadioInput } from "./RadioInput";
 import { Multiselect } from "./Multiselect";
 import { AddressInput } from "./AddressInput";
 import { SelectsearchFirestoreInput } from "./SelectsearchFirestoreInput";
+import { normalize } from "../utils/string";
 
 /**
  * @typedef {object} InputfieldProps
@@ -19,10 +20,11 @@ import { SelectsearchFirestoreInput } from "./SelectsearchFirestoreInput";
  * @property {string[]|{value: string, label: string}[]|string|undefined} options
  * @property {string} [labelClassName]
  * @property {boolean?} canAddNewOption
+ * @property {(key: string):import("react").ReactNode} [props.customInputMap]
  */
 
 /** @type {React.FC<InputfieldProps | import("react").InputHTMLAttributes>}  */
-export const Inputfield = forwardRef( function InputFieldComponent ({options, canAddNewOption, registerOptions, direction="vertical", renderError=true, children, id, button, className, onChange, type, labelClassName, ...props}, ref) {
+export const Inputfield = forwardRef( function InputFieldComponent ({options, canAddNewOption, registerOptions, direction="vertical", renderError=true, children, id, button, className, onChange, type, labelClassName, customInputMap, ...props}, ref) {
       
   const inputClassName = cn("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2", button?"rounded-l-none":"");
     
@@ -38,6 +40,10 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
   useEffect( () => {if(onChange)onChange({target:{value:currentValue}})}, [currentValue] );
   
   const inputElement = useMemo( () => {
+
+    if(customInputMap && customInputMap[type])
+      return customInputMap[type]({id: id});
+    
     
     switch (type) {
       case "textarea":
@@ -127,6 +133,25 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
               /> 
             )}
           </div>
+        }else if(type == "section"){
+          // console.log("section", children, type, options)
+          return <div className="w-full h-full flex flex-col">
+           {options.map( (f, i) => {
+                
+              const {id: child_id, label: child_label, ...child_props} = f
+
+              return <InputFieldComponent
+                key={`section${id}${i}`}
+                id={`${id}.${child_id??normalize(child_label)}`}
+                customInputMap={customInputMap}
+                // placeholder={`${id}.${child_id??normalize(child_label)}`}
+                {...child_props}
+              >
+                {f?.label}
+              </InputFieldComponent>
+
+            })}
+          </div>
         }
 
         return <input
@@ -141,8 +166,8 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
   }, [type, id, defaultValues[id], options, currentValue]);
   
   return (
-    <div className={cn("w-full h-full", className)}>
-      <fieldset className={cn("flex gap-3 h-full", direction=="vertical"?"flex-col items-center":"flex-row items-start")}>
+    <div className={cn(" w-full h-full", className)}>
+      <fieldset className={cn("flex h-full", type=="section"?"":"gap-3", direction=="vertical"?"flex-col items-center":"flex-row items-start")}>
         {
           children &&
           <label className={cn("text-text text-sm h-[35px] flex", direction=="vertical"?"items-end w-full justify-start":"items-center w-1/4 justify-end", labelClassName)} htmlFor={id}>
