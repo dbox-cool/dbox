@@ -10,6 +10,43 @@ import { Multiselect } from "./Multiselect";
 import { AddressInput } from "./AddressInput";
 import { SelectsearchFirestoreInput } from "./SelectsearchFirestoreInput";
 import { normalize } from "../utils/string";
+import { cva } from "class-variance-authority";
+
+const inputfieldVariants = cva("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2",
+  {variants: {
+    variant: {
+      default: "",
+      button: "rounded-l-none"
+    }
+  }}
+);
+
+const labelVariants = cva("text-text h-[35px] flex ",
+  {variants: {
+    type: {
+      default: "text-sm",
+      diagnosis: "text-md",
+      section: "text-lg font-medium"
+    },
+    direction: {
+      vertical: "items-end w-full justify-start",
+      horizontal: "items-center w-1/4 justify-end",
+    }
+  }}
+);
+
+const fieldsetVariants = cva("flex h-full",
+  {variants: {
+    direction: {
+      vertical: "flex-col items-center",
+      horizontal: "flex-row items-start"
+    },
+    type: {
+      default: "gap-3",
+      section: ""
+    }
+  }}
+);
 
 /**
  * @typedef {object} InputfieldProps
@@ -26,8 +63,10 @@ import { normalize } from "../utils/string";
 /** @type {React.FC<InputfieldProps | import("react").InputHTMLAttributes>}  */
 export const Inputfield = forwardRef( function InputFieldComponent ({options, canAddNewOption, registerOptions, direction="vertical", renderError=true, children, id, button, className, onChange, type, labelClassName, customInputMap, ...props}, ref) {
       
-  const inputClassName = cn("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2", button?"rounded-l-none":"");
-    
+  const inputCurrentVariant = inputfieldVariants({variant: button?"button":"default"});
+  const labelCurrentVariant = labelVariants({type, direction});
+  const fieldsetCurrentVariant = fieldsetVariants({direction, type});
+
   const {
     register,
     watch,
@@ -44,11 +83,10 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
     if(customInputMap && customInputMap[type])
       return customInputMap[type]({id: id});
     
-    
     switch (type) {
       case "textarea":
         return  <textarea
-          className={cn(inputClassName,"resize-none h-auto")}
+          className={cn(inputCurrentVariant,"resize-none h-auto")}
           id={id}
           ref={ref}
           rows="5"
@@ -125,7 +163,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
           return <div id={id} className="grid w-full md:grid-cols-3 gap-3 grid-cols-2" >
             {options.map( 
               (child, i) => <input
-                className={type == "checkbox"? "size-4":inputClassName}
+                className={type == "checkbox"? "size-4":inputCurrentVariant}
                 key={`${i}${child}`} 
                 type={children_type}
                 placeholder={child}
@@ -135,7 +173,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
           </div>
         }else if(type == "section"){
           // console.log("section", children, type, options)
-          return <div className="w-full h-full flex flex-col">
+          return <div className="w-full h-full flex flex-col px-4 border-[1px] border-primary/20 rounded-md">
            {options.map( (f, i) => {
                 
               const {id: child_id, label: child_label, ...child_props} = f
@@ -155,7 +193,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
         }
 
         return <input
-          className={type == "checkbox"? "size-4":inputClassName}
+          className={type == "checkbox"? "size-4":inputCurrentVariant}
           id={id}
           type={type}
           ref={ref}
@@ -167,10 +205,10 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
   
   return (
     <div className={cn(" w-full h-full", className)}>
-      <fieldset className={cn("flex h-full", type=="section"?"":"gap-3", direction=="vertical"?"flex-col items-center":"flex-row items-start")}>
+      <fieldset className={cn(fieldsetCurrentVariant)}>
         {
           children &&
-          <label className={cn("text-text text-sm h-[35px] flex", direction=="vertical"?"items-end w-full justify-start":"items-center w-1/4 justify-end", labelClassName)} htmlFor={id}>
+          <label className={cn(labelCurrentVariant, labelClassName)} htmlFor={id}>
             {children}
           </label>
         }
