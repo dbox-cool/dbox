@@ -11,6 +11,12 @@ const formatDate = (date, separator="/") => {
 const formatTimestamp = tm => {
   return formatDate(new Date(tm.seconds * 1000));
 }
+
+const getDate = date => {
+  if(date instanceof Date)
+    return date;
+  return new Date(date.seconds * 1000);
+}
   
 const getWeekDates = (index) => {
   const today = new Date();
@@ -98,4 +104,4 @@ function getYYYYMMDD(date){
   return `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${(date.getDate()).toString().padStart(2, '0')}`;
 }
 
-export {getYYYYMMDD, getTimeAsString,  calculateAge, formatDate, getWeekDates, getWeekOfMonth, getTimestamp, formatTimestamp };
+export {getYYYYMMDD, getTimeAsString,  calculateAge, formatDate, getWeekDates, getWeekOfMonth, getTimestamp, formatTimestamp, getDate };

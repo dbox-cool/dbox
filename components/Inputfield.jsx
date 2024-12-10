@@ -167,7 +167,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
                 key={`${i}${child}`} 
                 type={children_type}
                 placeholder={child}
-                {...register(`${id}.${child}`)}
+                {...register(`${id}.${normalize(child)}`)}
               /> 
             )}
           </div>
@@ -180,7 +180,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
 
               return <InputFieldComponent
                 key={`section${id}${i}`}
-                id={`${id}.${child_id??normalize(child_label)}`}
+                id={`${id}.${!child_id?normalize(child_label):child_id}`}
                 customInputMap={customInputMap}
                 // placeholder={`${id}.${child_id??normalize(child_label)}`}
                 {...child_props}
