@@ -16,7 +16,10 @@ const inputfieldVariants = cva("input text-text inline-flex h-[35px] flex-1 item
   {variants: {
     variant: {
       default: "",
-      button: "rounded-l-none"
+      button: "rounded-l-none",
+    },
+    type: {
+      file: "p-0 pr-3 italic text-black/70 file:me-3 file:h-full file:border-0 file:border-r file:border-solid file:border-input file:bg-transparent file:px-3 file:text-sm file:font-medium file:not-italic file:text-black/70"
     }
   }}
 );
@@ -61,7 +64,7 @@ const fieldsetVariants = cva("flex h-full gap-3",
 /** @type {React.FC<InputfieldProps | import("react").InputHTMLAttributes>}  */
 export const Inputfield = forwardRef( function InputFieldComponent ({options, canAddNewOption, registerOptions, direction="vertical", renderError=true, children, id, button, className, onChange, type, labelClassName, customInputMap, ...props}, ref) {
       
-  const inputCurrentVariant = inputfieldVariants({variant: button?"button":"default"});
+  const inputCurrentVariant = inputfieldVariants({variant: button?"button":"default", type});
   const labelCurrentVariant = labelVariants({type, direction});
   const fieldsetCurrentVariant = fieldsetVariants({direction, type});
 
