@@ -21,10 +21,9 @@ const inputfieldVariants = cva("input text-text inline-flex h-[35px] flex-1 item
   }}
 );
 
-const labelVariants = cva("text-text h-[35px] flex ",
+const labelVariants = cva("text-text h-[35px] flex text-sm",
   {variants: {
     type: {
-      default: "text-sm",
       diagnosis: "text-md",
       section: "text-lg font-medium"
     },
@@ -35,15 +34,14 @@ const labelVariants = cva("text-text h-[35px] flex ",
   }}
 );
 
-const fieldsetVariants = cva("flex h-full",
+const fieldsetVariants = cva("flex h-full gap-3",
   {variants: {
     direction: {
       vertical: "flex-col items-center",
-      horizontal: "flex-row items-start"
+      horizontal: "flex-row items-center"
     },
     type: {
-      default: "gap-3",
-      section: ""
+      section: "gap-0"
     }
   }}
 );
@@ -212,7 +210,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
             {children}
           </label>
         }
-        <div className={cn("flex grow h-full", direction=="vertical"?"w-full":"")}>
+        <div className={cn("flex grow h-full items-center", direction=="vertical"?"w-full":"")}>
           {button}
           {inputElement}
         </div>
