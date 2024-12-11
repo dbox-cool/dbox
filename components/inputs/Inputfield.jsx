@@ -19,7 +19,8 @@ const inputfieldVariants = cva("input text-text inline-flex h-[35px] flex-1 item
       button: "rounded-l-none",
     },
     type: {
-      file: "p-0 pr-3 italic text-black/70 file:me-3 file:h-full file:border-0 file:border-r file:border-solid file:border-input file:bg-transparent file:px-3 file:text-sm file:font-medium file:not-italic file:text-black/70"
+      file: "p-0 pr-3 italic text-black/70 file:me-3 file:h-full file:border-0 file:border-r file:border-solid file:border-input file:bg-transparent file:px-3 file:text-sm file:font-medium file:not-italic file:text-black/70",
+      checkbox: "hover:cursor-pointer"
     }
   }}
 );
@@ -30,14 +31,19 @@ const labelVariants = cva("text-text h-[35px] flex text-sm",
       diagnosis: "text-md",
       section: "text-lg font-medium"
     },
+    size: {
+      default: "w-1/4",
+      sm: "w-14",
+      fit: "w-fit"
+    },
     direction: {
       vertical: "items-end w-full justify-start",
-      horizontal: "items-center w-1/4 justify-end",
-    }
+      horizontal: "items-center justify-end",
+    },
   }}
 );
 
-const fieldsetVariants = cva("flex h-full gap-3",
+const fieldsetVariants = cva("flex h-full gap-3 w-full",
   {variants: {
     direction: {
       vertical: "flex-col items-center",
@@ -53,19 +59,21 @@ const fieldsetVariants = cva("flex h-full gap-3",
  * @typedef {object} InputfieldProps
  * @property {import("react-hook-form").RegisterOptions<import("react-hook-form").FieldValues, any>} registerOptions
  * @property {"horizontal"|"vertical"} direction
+ * @property {"sm"|"fit"|"default"} labelSize
  * @property {Element} button
  * @property {React.HTMLInputTypeAttribute|"multiselect"|"select"|"textarea"|"ci"|"phone"|"radio"} type
  * @property {string[]|{value: string, label: string}[]|string|undefined} options
  * @property {string} [labelClassName]
  * @property {boolean?} canAddNewOption
+ * @property {boolean} [raw]
  * @property {(key: string):import("react").ReactNode} [props.customInputMap]
  */
 
 /** @type {React.FC<InputfieldProps | import("react").InputHTMLAttributes>}  */
-export const Inputfield = forwardRef( function InputFieldComponent ({options, canAddNewOption, registerOptions, direction="vertical", renderError=true, children, id, button, className, onChange, type, labelClassName, customInputMap, ...props}, ref) {
+export const Inputfield = forwardRef( function InputFieldComponent ({options, canAddNewOption, registerOptions, direction="vertical", renderError=true, children, id, button, className, onChange, type, labelClassName, customInputMap, labelSize="default", raw=false, ...props}, ref) {
       
   const inputCurrentVariant = inputfieldVariants({variant: button?"button":"default", type});
-  const labelCurrentVariant = labelVariants({type, direction});
+  const labelCurrentVariant = labelVariants({type, direction, size: labelSize});
   const fieldsetCurrentVariant = fieldsetVariants({direction, type});
 
   const {
@@ -161,15 +169,42 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
       default:
         if(type?.includes("group")){
           const children_type = type.split("-")[0];
-          return <div id={id} className="grid w-full md:grid-cols-3 gap-3 grid-cols-2" >
+          return <div 
+            id={id} 
+            className={cn(
+              "px-4 w-full border-primary/20 border-[1px] rounded-md",
+              (children_type == "checkbox" && options.length>6)?
+                "grid grid-cols-4 justify-between"
+                :
+                "flex flex-row flex-wrap justify-between pt-6"
+            )} 
+          >
             {options.map( 
-              (child, i) => <input
-                className={type == "checkbox"? "size-4":inputCurrentVariant}
-                key={`${i}${child}`} 
-                type={children_type}
-                placeholder={child}
-                {...register(`${id}.${normalize(child)}`)}
-              /> 
+              (child, i) => {
+                let child_label, child_id;
+                if(typeof child == "string"){
+                  child_label = child;
+                  child_id = normalize(child);
+                }else{
+                  child_label = child.label;
+                  child_id = child.id;
+                }
+
+                return <InputFieldComponent
+                  // raw={true}
+                  // className={type == "checkbox"? "size-4":inputCurrentVariant}
+                  labelSize="fit"
+                  className={(children_type=="text"||children_type=="checkbox")?"w-fit":"w-full"}
+                  customInputMap={customInputMap}
+                  key={`${i}${child_id}`} 
+                  type={children_type}
+                  placeholder={child_label}
+                  id={`${id}.${child_id}`}
+                  direction="horizontal"
+                >
+                  {child_label}
+                </InputFieldComponent>
+              }
             )}
           </div>
         }else if(type == "section"){
@@ -203,6 +238,8 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
         /> 
     }
   }, [type, id, defaultValues[id], options, currentValue]);
+
+  if(raw) return inputElement;
   
   return (
     <div className={cn(" w-full h-full", className)}>
@@ -213,7 +250,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
             {children}
           </label>
         }
-        <div className={cn("flex grow h-full items-center", direction=="vertical"?"w-full":"")}>
+        <div className={cn("flex grow h-full items-center", direction=="vertical"?"w-full":"grow")}>
           {button}
           {inputElement}
         </div>
