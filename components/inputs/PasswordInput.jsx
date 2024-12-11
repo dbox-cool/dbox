@@ -2,7 +2,7 @@ import { cn } from '@/dbox/utils/cn';
 import { useState } from 'react';
 import { IoEye, IoEyeOff } from 'react-icons/io5'
 
-export const PasswordInput = ({register, className, ...props}) => {
+export const PasswordInput = ({register={}, className, ...props}) => {
   const [showPwd, setShowPwd] = useState(false);
   return (
     <div className="relative flex w-full">

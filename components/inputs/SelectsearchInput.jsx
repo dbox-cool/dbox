@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, forwardRef } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { IoIosCheckmark } from "react-icons/io";
 import { normalize } from "@/dbox/utils/string";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import Button from "@/dbox/components/Button";
-import { FilterList } from "@/dbox/components/FilterList";
-import { forwardRef } from "react";
-import { cn } from "../utils/cn";
+import { cn } from "@/dbox/utils/cn"
+import { FilterList } from "@/dbox/components/inputs/FilterList";
 
 /**
  * @typedef {object} SelectSearchProps

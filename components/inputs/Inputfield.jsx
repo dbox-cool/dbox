@@ -9,7 +9,7 @@ import { RadioInput } from "./RadioInput";
 import { Multiselect } from "./Multiselect";
 import { AddressInput } from "./AddressInput";
 import { SelectsearchFirestoreInput } from "./SelectsearchFirestoreInput";
-import { normalize } from "../utils/string";
+import { normalize } from "@/dbox/utils/string";
 import { cva } from "class-variance-authority";
 
 const inputfieldVariants = cva("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2",

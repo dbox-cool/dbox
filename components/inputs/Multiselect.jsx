@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { cn } from "../utils/cn";
+import { cn } from "@/dbox/utils/cn"
 import { FaX } from "react-icons/fa6";
 
 export const Multiselect = ({id, value, setValue}) => {

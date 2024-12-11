@@ -1,8 +1,8 @@
 import { FormProvider } from "react-hook-form"
-import { Loading } from "./Loading"
+import { Loading } from "@/dbox/components/ui/Loading"
 import { isValidElement, useMemo } from "react"
-import { Inputfield } from "./Inputfield"
-import { normalize } from "../utils/string"
+import { Inputfield } from "@/dbox/components/inputs/Inputfield"
+import { normalize } from "@/dbox/utils/string"
 
 /** @typedef {object} FormfieldSpecType
  *  @property {string} [id]
@@ -26,9 +26,6 @@ export const SmartForm = ({customInputMap, children, methods, onSubmit, onError,
 
   /** @type {FormfieldSpecType[]} */
   const formSpec = useMemo(()=>!isValidElement(children)?children.filter(f=>f):undefined, [children]);
-  // console.log("form children",children,formSpec)
-  // console.log("form spec", isValidElement(children), formSpec)
-  // console.log("inputmap", customInputMap)
 
   return (
     <FormProvider {...methods}>
@@ -54,7 +51,6 @@ export const SmartForm = ({customInputMap, children, methods, onSubmit, onError,
                       return field;
                     else{
                       const {type, id, label, options, direction: dirF, ...fieldProps} = field;
-                        // console.log("rendering field", field)
                       return <Inputfield 
                         key={idx} 
                         id={!id?normalize(field.label):id}

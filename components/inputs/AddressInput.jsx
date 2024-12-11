@@ -2,8 +2,8 @@
 import { useState, useMemo, useEffect } from "react"
 import VzlaLocations from "@/dbox/utils/VzlaLocations";
 import { useFormContext } from "react-hook-form";
-import { Inputfield } from "@/dbox/components/Inputfield";
-import { cn } from "../utils/cn";
+import { Inputfield } from "@/dbox/components/inputs/Inputfield";
+import { cn } from "@/dbox/utils/cn";
 
 /**
  * @param {{
