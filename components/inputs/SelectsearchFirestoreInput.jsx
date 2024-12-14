@@ -3,7 +3,6 @@ import { forwardRef, useMemo } from "react"
 import { capitalizeAll, normalize } from "@/dbox/utils/string";
 import { SelectsearchInput } from "./SelectsearchInput";
 import { useFormContext } from "react-hook-form";
-import { normalizePath } from "vite";
 
 /**
  * @typedef {object} SelectSearchFirestoreProps
