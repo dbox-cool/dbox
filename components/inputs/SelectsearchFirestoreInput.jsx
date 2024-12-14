@@ -1,8 +1,9 @@
 import { useFirestoreDoc }from "@/dbox/hooks/useFirestoreDoc"
 import { forwardRef, useMemo } from "react"
-import { capitalizeAll } from "@/dbox/utils/string";
+import { capitalizeAll, normalize } from "@/dbox/utils/string";
 import { SelectsearchInput } from "./SelectsearchInput";
 import { useFormContext } from "react-hook-form";
+import { normalizePath } from "vite";
 
 /**
  * @typedef {object} SelectSearchFirestoreProps
@@ -57,7 +58,7 @@ export const SelectsearchFirestoreInput = forwardRef(function SelectsearchFirest
       return capitalizeAll(ans.toLowerCase());
     } );
 
-    return displayOpt.map( opt => { return {label: opt, value: opt.toUpperCase()} } );
+    return displayOpt.map( opt => { return {label: opt, value: normalize(opt)} } );
     // return displayOpt;
 
   }, [path, data]);
