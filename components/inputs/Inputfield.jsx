@@ -204,7 +204,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
           return <div 
             id={id} 
             className={cn(
-              "px-4 w-full border-primary/20 border-[1px] rounded-md",
+              "px-4 w-full border-primary/20 border-[1px] rounded-md space-x-2",
               (children_type == "checkbox" && options.length>6)?
                 "grid grid-cols-4 justify-between"
                 :
