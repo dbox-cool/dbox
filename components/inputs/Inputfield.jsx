@@ -66,7 +66,7 @@ const fieldsetVariants = cva("flex h-full gap-3 w-full",
  * @property {string} [labelClassName]
  * @property {boolean?} canAddNewOption
  * @property {boolean} [raw]
- * @property {(key: string):import("react").ReactNode} [props.customInputMap]
+ * @property {Object<string,import("react").ReactNode>} [props.customInputMap]
  */
 
 /** @type {React.FC<InputfieldProps | import("react").InputHTMLAttributes>}  */
@@ -102,14 +102,38 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
     
     switch (type) {
       case "textarea":
-        return  <textarea
-          className={cn(inputCurrentVariant,"resize-none h-auto")}
-          id={id}
-          ref={ref}
-          rows="5"
-          {...register(id, registerOptions)}
-          {...props}
-        />
+        if(!options || !options.length)
+          return  <textarea
+            className={cn(inputCurrentVariant,"resize-none h-auto")}
+            id={id}
+            ref={ref}
+            rows="5"
+            {...register(id, registerOptions)}
+            {...props}
+          />
+        else
+          return <div className="w-full">
+            <textarea
+              className={cn(inputCurrentVariant,"resize-none h-auto")}
+              id={id}
+              ref={ref}
+              rows="5"
+              {...register(id, registerOptions)}
+              {...props}
+            />
+            <h3 className="text-xs font-bold my-2">Sugerencias:</h3>
+            <div className="flex flex-wrap space-x-2">
+              {options.map( sug =>
+                <span 
+                  key={sug.value}
+                  className="border-2 rounded-xl bg-foreground px-2 py-1 text-xs cursor-pointer border-background hover:border-primary"
+                  onClick={()=>setValue(id, `${sug.label}\n${currentValue??""}`)}
+                >
+                  {sug.label}
+                </span>
+              )}
+            </div>
+          </div> 
       case "password":
         return <PasswordInput
           register={register(id)}
