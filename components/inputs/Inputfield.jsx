@@ -83,14 +83,22 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
     formState:{errors, defaultValues}
   } = useFormContext();
   
-  const currentValue = (type=="multiselect" || type=="select" || type=="ci" || type=="phone" || type=="radio")?watch(id):undefined;
+  const currentValue = watch(id);
   
   useEffect( () => {if(onChange)onChange({target:{value:currentValue}})}, [currentValue] );
   
   const inputElement = useMemo( () => {
 
     if(customInputMap && customInputMap[type])
-      return customInputMap[type]({id: id});
+      return customInputMap[type]({
+        ...register(id, registerOptions),
+        id: id,
+        value: watch(id),
+        setValue:value=>setValue(id, value),
+        options:options??[],
+        canAddNewOption: canAddNewOption,
+        ...props
+      });
     
     switch (type) {
       case "textarea":
