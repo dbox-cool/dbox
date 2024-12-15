@@ -15,7 +15,7 @@ import { normalize } from "@/dbox/utils/string"
 /**
  * @param {object} props
  * @param {FormfieldSpecType[]|import("react").ReactNode} props.children
- * @param {(key: string):import("react").ReactNode} [props.customInputMap]
+ * @param {Object<string, import("react").ReactNode>} [props.customInputMap]
  * @param {import("react-hook-form").UseFormReturn<object>} props.methods
  * @param {import("react-hook-form").SubmitHandler<any>} props.onSubmit
  * @param {import("react-hook-form").SubmitErrorHandler<any>} props.onError
