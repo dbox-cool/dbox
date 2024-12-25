@@ -87,7 +87,7 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       
       {/* NEW OPTION INPUT */}
       <div className={`input text-text flex-1 items-center justify-between rounded-[4px] text-sm leading-none outline-none border-background border-2 w-full h-full p-0 m-0 ${(canAddNewOption && inputNewOpt)? "inline-flex":"hidden"}`}>
