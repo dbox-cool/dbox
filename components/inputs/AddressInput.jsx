@@ -11,11 +11,13 @@ import { cn } from "@/dbox/utils/cn";
  * }} prop 
  * @returns {React.Component}
  */
-export const AddressInput = ({id}) => {
+export const AddressInput = ({id, ...props}) => {
 
   const {watch, resetField, register, formState: {errors}} = useFormContext();
   const currState=watch(`${id}.state`);
   const currMun=watch(`${id}.mun`);
+  const currParr=watch(`${id}.parr`);
+  const street=watch(`${id}.street`);
   const inputClassName = cn("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2");
 
   /** @type {string[]} */
@@ -61,6 +63,18 @@ export const AddressInput = ({id}) => {
   }, [currMun, currState]);
 
   const labelClassName="w-[5rem]";
+
+  if(props.readOnly)
+    return (
+      <div className="w-full h-full">
+        {`${currState??"Estado no especificado"}, ${currMun??"Municipio no especificado"}, ${currParr??"Parroquia no especificada"}`}
+        {
+          (street && street.length)?
+          <><br/>{street}</>:""
+        }
+      </div>
+    );
+      
   
   return (<div className="flex flex-col w-full">
     <Inputfield

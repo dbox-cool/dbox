@@ -22,7 +22,7 @@ import { normalize } from "@/dbox/utils/string"
  * @param {string|undefined} props.loadingPrompt
  * @param {"vertical"|"horizontal"} [props.direction]
 */
-export const SmartForm = ({customInputMap, children, methods, onSubmit, onError, loadingPrompt, direction="vertical", ...props}) => {
+export const SmartForm = ({customInputMap, readOnly, children, methods, onSubmit, onError, loadingPrompt, direction="vertical", ...props}) => {
 
   /** @type {FormfieldSpecType[]} */
   const formSpec = useMemo(()=>!isValidElement(children)?children.filter(f=>f):undefined, [children]);
@@ -58,6 +58,7 @@ export const SmartForm = ({customInputMap, children, methods, onSubmit, onError,
                         direction={dirF??direction}
                         type={type}
                         customInputMap={customInputMap}
+                        readOnly={readOnly}
                         {...fieldProps}
                       >
                         {label}

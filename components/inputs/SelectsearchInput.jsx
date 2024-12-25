@@ -25,7 +25,7 @@ import { FilterList } from "@/dbox/components/inputs/FilterList";
  * @returns {import("react").ReactNode}
  */
 
-export const SelectsearchInput = forwardRef( function SelectsearchInputComponent ({ options, selectedOption, setSelectedOption, placeholder, direction = "down", onChange, canAddNewOption = false, searchbarThreshold=5, disabled}, ref) {
+export const SelectsearchInput = forwardRef( function SelectsearchInputComponent ({readOnly, options, selectedOption, setSelectedOption, placeholder, direction = "down", onChange, canAddNewOption = false, searchbarThreshold=5, disabled}, ref) {
 
   const inputClassName = cn("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2");
 
@@ -85,6 +85,15 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  if(readOnly)
+    return(
+      <div className="w-full h-full">
+        {
+          displayValue??"No Especificado"
+        }
+      </div>
+    );
 
   return (
     <div className="w-full h-full">

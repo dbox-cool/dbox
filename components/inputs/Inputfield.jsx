@@ -70,7 +70,7 @@ const fieldsetVariants = cva("flex h-full gap-3 w-full",
  */
 
 /** @type {React.FC<InputfieldProps | import("react").InputHTMLAttributes>}  */
-export const Inputfield = forwardRef( function InputFieldComponent ({options, canAddNewOption, registerOptions, direction="vertical", renderError=true, children, id, button, className, onChange, type, labelClassName, customInputMap, labelSize="default", raw=false, ...props}, ref) {
+export const Inputfield = forwardRef( function InputFieldComponent ({options, readOnly, canAddNewOption, registerOptions, direction="vertical", renderError=true, children, id, button, className, onChange, type, labelClassName, customInputMap, labelSize="default", raw=false, ...props}, ref) {
       
   const inputCurrentVariant = inputfieldVariants({variant: button?"button":"default", type});
   const labelCurrentVariant = labelVariants({type, direction, size: labelSize});
@@ -97,6 +97,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
         setValue:value=>setValue(id, value),
         options:options??[],
         canAddNewOption: canAddNewOption,
+        readOnly: readOnly,
         ...props
       });
     
@@ -108,6 +109,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
             id={id}
             ref={ref}
             rows="5"
+            readOnly={readOnly}
             {...register(id, registerOptions)}
             {...props}
           />
@@ -117,6 +119,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
               className={cn(inputCurrentVariant,"resize-none h-auto")}
               id={id}
               ref={ref}
+              readOnly={readOnly}
               rows="5"
               {...register(id, registerOptions)}
               {...props}
@@ -138,6 +141,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
         return <PasswordInput
           register={register(id)}
           id={id}
+          readOnly={readOnly}
           ref={ref}
           {...props}
         />
@@ -146,6 +150,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
           defaultPrefix="V"
           prefixes={["V", "E", "J", "G"]}
           value={currentValue??""}
+          readOnly={readOnly}
           setValue={value=>setValue(id, value)}
           id={id}
           ref={ref}
@@ -155,6 +160,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
         return <PrefixInput
           defaultPrefix="424"
           prefixes={["424", "414", "412", "212", "416", "426"]}
+          readOnly={readOnly}
           value={currentValue??""}
           setValue={value=>setValue(id, value)}
           id={id}
@@ -165,6 +171,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
         return <SelectsearchInput
           canAddNewOption={canAddNewOption}
           options={options??[]}
+          readOnly={readOnly}
           id={id}
           selectedOption={currentValue}
           setSelectedOption={value=>setValue(id, value)}
@@ -176,6 +183,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
         return <RadioInput
           options={options??[]}
           id={id}
+          readOnly={readOnly}
           value={currentValue}
           setValue={value=>setValue(id, value)}
           {...props}
@@ -184,15 +192,17 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
         return <Multiselect
           id={id}
           options={options}
+          readOnly={readOnly}
           value={currentValue}
           setValue={value=>setValue(id, value)}
           {...props}
         />
       case "addressvzla":
-        return <AddressInput id={id} {...props}/>
+        return <AddressInput readOnly={readOnly} id={id} {...props}/>
       case "selectdocs":
         return <SelectsearchFirestoreInput
           canAddNewOption={canAddNewOption}
+          readOnly={readOnly}
           id={id}
           ref={ref}
           docPath={options}
@@ -233,6 +243,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
                   placeholder={child_label}
                   id={`${id}.${child_id}`}
                   direction="horizontal"
+                  readOnly={readOnly}
                 >
                   {child_label}
                 </InputFieldComponent>
@@ -249,6 +260,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
               return <InputFieldComponent
                 key={`section${id}${i}`}
                 id={`${id}.${!child_id?normalize(child_label):child_id}`}
+                readOnly={readOnly}
                 customInputMap={customInputMap}
                 // placeholder={`${id}.${child_id??normalize(child_label)}`}
                 {...child_props}
@@ -259,6 +271,18 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, ca
             })}
           </div>
         }
+
+        if(readOnly)
+          return (
+            <div className="w-full h-full">
+              {
+                currentValue&&currentValue?.trim()?.length?
+                  currentValue
+                  :
+                  "No Especificado"
+              }
+            </div>
+          );
 
         return <input
           className={type == "checkbox"? "size-4":inputCurrentVariant}
