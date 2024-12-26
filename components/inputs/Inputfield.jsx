@@ -1,5 +1,5 @@
 import { cn } from "@/dbox/utils/cn"
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form"
 import {SelectsearchInput} from "./SelectsearchInput";
 import { PrefixInput } from "./PrefixInput";
@@ -293,7 +293,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
           {...props}
         /> 
     }
-  }, [type, id, defaultValues[id], options, currentValue]);
+  }, [type, id, defaultValues[id], options, currentValue, readOnly]);
 
   if(raw) return inputElement;
   

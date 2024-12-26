@@ -1,5 +1,5 @@
 import * as RadioGroup from "@radix-ui/react-radio-group";
-import { forwardRef,  } from "react";
+import { forwardRef } from "react";
 
 /**
  * @typedef {object} RadioInputProps
@@ -14,7 +14,6 @@ export const RadioInput = forwardRef(function RadioInputComponent ({id, options,
 
   const displayValue = typeof options[0] == "string"? value : options.find((item) => item.value==value )?.label
 
-  console.log("readonly", readOnly)
   if(readOnly)
     return (
       <div className="w-full h-full">
