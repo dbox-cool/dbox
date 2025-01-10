@@ -55,7 +55,7 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
       if(typeof options[0] == "string")
         return typeof selectedOption == "string"? selectedOption:selectedOption.value;
       else
-        return options.find( opt => opt.value == selectedOption )?.label
+        return options.find( opt => normalize(opt.value) == normalize(selectedOption) )?.label
     },
     [selectedOption, options]
   );
