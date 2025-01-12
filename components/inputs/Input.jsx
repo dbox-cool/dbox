@@ -7,6 +7,7 @@ export const Input = forwardRef( function InputComponent({type, button, ...props
       <input 
         className={type == "checkbox"? "size-4":inputCurrentVariant}
         ref={ref}
+        type={type}
         {...props}
       /> 
     )
