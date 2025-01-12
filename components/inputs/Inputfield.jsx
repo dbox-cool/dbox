@@ -1,5 +1,5 @@
 import { cn } from "@/dbox/utils/cn"
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect } from "react";
 import { useFormContext } from "react-hook-form"
 import {SelectsearchInput} from "./SelectsearchInput";
 import { PrefixInput } from "./PrefixInput";
@@ -11,19 +11,8 @@ import { AddressInput } from "./AddressInput";
 import { SelectsearchFirestoreInput } from "./SelectsearchFirestoreInput";
 import { normalize } from "@/dbox/utils/string";
 import { cva } from "class-variance-authority";
-
-const inputfieldVariants = cva("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2",
-  {variants: {
-    variant: {
-      default: "",
-      button: "rounded-l-none",
-    },
-    type: {
-      file: "p-0 pr-3 italic text-black/70 file:me-3 file:h-full file:border-0 file:border-r file:border-solid file:border-input file:bg-transparent file:px-3 file:text-sm file:font-medium file:not-italic file:text-black/70",
-      checkbox: "hover:cursor-pointer"
-    }
-  }}
-);
+import { Input } from "./Input";
+import { inputfieldVariants } from "./InputfieldVariants";
 
 const labelVariants = cva("text-text h-[35px] flex text-sm",
   {variants: {
@@ -234,7 +223,6 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
 
                 return <InputFieldComponent
                   // raw={true}
-                  // className={type == "checkbox"? "size-4":inputCurrentVariant}
                   labelSize="fit"
                   className={(children_type=="text"||children_type=="checkbox")?"w-fit":"w-full"}
                   customInputMap={customInputMap}
@@ -284,8 +272,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
             </div>
           );
 
-        return <input
-          className={type == "checkbox"? "size-4":inputCurrentVariant}
+        return <Input
           id={id}
           type={type}
           ref={ref}
