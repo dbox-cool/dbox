@@ -51,7 +51,18 @@ import firestore from "@/services/firestore";
  * @param {QuerySpecsType?} querySpecs
  * @returns {useFirestoreQueryReturn}
 */
-export const useFirestoreQuery = (path, { orderByField, orderByDirection = "desc", queryConstraints=[], batchSize=-1, filters=[], fetch=true, listen=false }) => {
+export const useFirestoreQuery = (
+  path, 
+  { 
+    orderByField, 
+    orderByDirection = "desc", 
+    queryConstraints=[], 
+    batchSize=-1, 
+    filters=[], 
+    fetch=true, 
+    listen=false 
+  }
+) => {
 
   /** 
    * Manage React query client
@@ -394,6 +405,24 @@ export const useFirestoreQuery = (path, { orderByField, orderByDirection = "desc
   }, [loadingAdd, loadingFetch, loadingOverwrite, loadingRemove, loadingUpdate, loadingUpdateBatch]);
 
   /** @type {useFirestoreQueryReturn} */
-  return { loading: loadingState, loadingFetch, data, error, refetch, removeDocument, overwriteDocument, updateDocument, addDocument, updateBatch, page, setPage, existsNextPage, maxPages, setFilterState, clearFilterState, getQueryParamsState };
+  return { 
+    loading: loadingState, 
+    loadingFetch, 
+    data, 
+    error, 
+    refetch, 
+    removeDocument, 
+    overwriteDocument, 
+    updateDocument, 
+    addDocument, 
+    updateBatch, 
+    page, 
+    setPage, 
+    existsNextPage, 
+    maxPages, 
+    setFilterState, 
+    clearFilterState, 
+    getQueryParamsState 
+  };
 
 }

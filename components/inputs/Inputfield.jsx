@@ -280,7 +280,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
           {...props}
         /> 
     }
-  }, [type, id, defaultValues[id], options, currentValue, readOnly]);
+  }, [type, id, defaultValues?defaultValues[id]:false, options, currentValue, readOnly]);
 
   if(raw) return inputElement;
   
