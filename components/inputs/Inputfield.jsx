@@ -203,11 +203,11 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
           return <div 
             id={id} 
             className={cn(
-              "h-full px-4 w-full border-primary/20 border-[1px] rounded-md space-x-2",
-              (children_type == "checkbox" && options.length>6)?
-                "grid grid-cols-4 justify-between"
+              "h-full px-4 w-full border-primary/20 border-[1px] rounded-md gap-x-4 justify-start",
+              (options.length<6)?
+                "grid grid-cols-2"
                 :
-                "flex flex-row flex-wrap justify-between pt-6"
+                "grid grid-cols-3"
             )} 
           >
             {options.map( 
@@ -224,7 +224,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
                 return <InputFieldComponent
                   // raw={true}
                   labelSize="fit"
-                  className={(children_type=="text"||children_type=="checkbox")?"w-fit":"w-full"}
+                  className={(children_type=="number"||children_type=="text"||children_type=="checkbox")?"w-fit":"w-full"}
                   customInputMap={customInputMap}
                   key={`${i}${child_id}`} 
                   type={children_type}
