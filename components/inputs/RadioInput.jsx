@@ -39,11 +39,11 @@ export const RadioInput = forwardRef(function RadioInputComponent ({id, options,
           return (
             <div className="flex items-center" key={value}>
               <RadioGroup.Item
-                className="bg-foreground border-2 size-5 rounded-full outline-none cursor-pointer"
+                className="bg-foreground border-2 size-5 rounded-full outline-none cursor-pointer shrink-0"
                 value={value}
                 id={value}
               >
-                <RadioGroup.Indicator className="flex items-center justify-center w-full h-full relative after:content-[''] after:block after:w-[11px] after:h-[11px] after:rounded-[50%] after:bg-primary" />
+                <RadioGroup.Indicator className="flex items-center justify-center w-full h-full relative after:content-[''] after:block after:w-[11px] after:h-[11px] after:rounded-[50%] after:bg-primary shrink-0 size-5" />
               </RadioGroup.Item>
               <label
                 className="text-text text-sm leading-none pl-2 cursor-pointer"
