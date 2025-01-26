@@ -24,6 +24,7 @@ export const Input = forwardRef(
         className={type == "checkbox"? "size-4":inputCurrentVariant}
         ref={ref}
         type={type}
+        step="0.01"
         {...props}
       /> 
     )
