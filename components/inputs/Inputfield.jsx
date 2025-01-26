@@ -200,14 +200,19 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
       default:
         if(type?.includes("group")){
           const children_type = type.split("-")[0];
+          let grid_size;
+          if(options.length == 2){
+            grid_size = "grid-cols-2"
+          }else if(options.length%4){
+            grid_size = "grid-cols-3"
+          }else{
+            grid_size = "grid-cols-4"
+          }
           return <div 
             id={id} 
             className={cn(
-              "h-full px-4 w-full border-primary/20 border-[1px] rounded-md gap-x-4 justify-start",
-              (options.length<6)?
-                "grid grid-cols-2"
-                :
-                "grid grid-cols-3"
+              "h-full px-4 w-full border-primary/20 border-[1px] rounded-md gap-x-4 md:gap-x-6 justify-start grid",
+              grid_size
             )} 
           >
             {options.map( 
@@ -224,7 +229,8 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
                 return <InputFieldComponent
                   // raw={true}
                   labelSize="fit"
-                  className={(children_type=="number"||children_type=="text"||children_type=="checkbox")?"w-fit":"w-full"}
+                  labelClassName="text-xs w-1/4 text-right"
+                  className={"w-full"}
                   customInputMap={customInputMap}
                   key={`${i}${child_id}`} 
                   type={children_type}
