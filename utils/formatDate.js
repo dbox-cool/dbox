@@ -9,6 +9,8 @@ const formatDate = (date, separator="/") => {
 }
 
 const formatTimestamp = tm => {
+  if(tm instanceof Date)
+    return formatDate(tm);
   return formatDate(new Date(tm.seconds * 1000));
 }
 
