@@ -223,7 +223,8 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
                   child_id = normalize(child);
                 }else{
                   child_label = child.label;
-                  child_id = child?.id?.length? child.id : normalize(child.label) ;
+                  child_id = child?.id?.length? child.id : normalize(child.label);
+                  child_id = child?.value?.length? child.value : child_id;
                 }
 
                 return <InputFieldComponent
