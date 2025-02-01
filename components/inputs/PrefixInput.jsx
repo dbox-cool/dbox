@@ -22,6 +22,8 @@ export const PrefixInput = forwardRef( function PrefixInputComponent({id, value,
   useEffect( () => {
     if(number.length > 0){
       setValue( `${prefix}${number}` );
+    }else{
+      setValue('')
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prefix, number] );

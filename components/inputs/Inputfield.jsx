@@ -13,6 +13,7 @@ import { normalize } from "@/dbox/utils/string";
 import { cva } from "class-variance-authority";
 import { Input } from "./Input";
 import { inputfieldVariants } from "./InputfieldVariants";
+import { validateCedula, validatePhone } from "@/dbox/utils/validators";
 
 const labelVariants = cva("text-text h-[35px] flex text-sm",
   {variants: {
@@ -135,7 +136,21 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
           {...props}
         />
       case "ci": 
+        register(
+          id,
+          {
+            validate: value => {
+              if(validateCedula(value))
+                return true;
+              if(!registerOptions?.required && value.trim().length <= 1)
+                return true;
+              return "Cédula inválida";
+            }
+            ,...registerOptions
+          }
+        )
         return <PrefixInput
+          {...register(id, registerOptions)}
           defaultPrefix="V"
           prefixes={["V", "E", "J", "G"]}
           value={currentValue??""}
@@ -146,6 +161,19 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
           {...props}
         />
       case "phone": 
+        register(
+          id,
+          {
+            validate: value => {
+              if(validatePhone(value))
+                return true;
+              if(!registerOptions?.required && value.trim().length <= 3)
+                return true;
+              return "Número de teléfono inválido";
+            }
+            ,...registerOptions
+          }
+        )
         return <PrefixInput
           defaultPrefix="424"
           prefixes={["424", "414", "412", "212", "416", "426"]}
