@@ -142,7 +142,8 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
             validate: value => {
               if(validateCedula(value))
                 return true;
-              if(!registerOptions?.required && value.trim().length <= 1)
+              const req = registerOptions?.required || props?.required;
+              if(!req && value.trim().length <= 1)
                 return true;
               return "Cédula inválida";
             }
@@ -167,7 +168,8 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
             validate: value => {
               if(validatePhone(value))
                 return true;
-              if(!registerOptions?.required && value.trim().length <= 3)
+              const req = registerOptions?.required || props?.required;
+              if(!req && value.trim().length <= 3)
                 return true;
               return "Número de teléfono inválido";
             }
