@@ -20,8 +20,8 @@ export const PrefixInput = forwardRef( function PrefixInputComponent({id, value,
   const [number, setNumber] = useState(value?value.slice(prefixSize):"");
 
   useEffect( () => {
-    if(number.length > 0){
-      setValue( `${prefix}${number}` );
+    if(number?.trim()?.length > 0){
+      setValue( `${prefix}${number?.trim()??""}` );
     }else{
       setValue('')
     }
@@ -34,7 +34,7 @@ export const PrefixInput = forwardRef( function PrefixInputComponent({id, value,
     
     if(value && typeof value == "string"){
       setPrefix(value.slice(0, prefixSize));
-      setNumber(value.slice(prefixSize));
+      setNumber(value.slice(prefixSize)?.trim()??"");
     }else{
       setNumber("");
       setPrefix(defaultPrefix??prefixes[0]??"");
