@@ -14,6 +14,7 @@ import { cva } from "class-variance-authority";
 import { Input } from "./Input";
 import { inputfieldVariants } from "./InputfieldVariants";
 import { validateCedula, validatePhone } from "@/dbox/utils/validators";
+import { showWarning } from "@/utils/showToast";
 
 const labelVariants = cva("text-text h-[35px] flex text-sm",
   {variants: {
@@ -145,6 +146,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
               const req = registerOptions?.required || props?.required;
               if(!req && value.trim().length <= 1)
                 return true;
+              showWarning("Cédula inválida");
               return "Cédula inválida";
             }
             ,...registerOptions
@@ -171,6 +173,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
               const req = registerOptions?.required || props?.required;
               if(!req && value.trim().length <= 3)
                 return true;
+              showWarning("Número de teléfono inválida");
               return "Número de teléfono inválido";
             }
             ,...registerOptions
