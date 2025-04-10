@@ -82,15 +82,20 @@ export const FilesetInput = forwardRef( function FilesetInputComponent({id, valu
         })}
 
         {filesUploaded.map((f, idx) => {
+          const parsedURL = new URL(f);
+          const pathname = parsedURL.pathname
+          const encodedPathPart = pathname.split('/o/')[1];
+          const decodedPath = decodeURIComponent(encodedPathPart);
+          const filename = decodedPath.substring(decodedPath.lastIndexOf('/') + 1);
           return (
             <div 
               key={`2upload${idx}`}
-              className="h-20 w-48 border-2 border-primary/30 flex flex-col rounded-lg"
+              className="h-28 w-48 border-2 border-primary/30 flex flex-col rounded-lg"
             >
-              <div className="w-full overflow-ellipsis h-2/3 overflow-x-clip align-middle px-2">
-                Archivos previos
+              <div className="w-full h-2/3 px-2 overflow-hidden [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3]">
+                {filename}
               </div>
-              <div className="flex justify-between items-center px-2 h-1/3">
+              <div className="flex justify-between items-center px-2 h-1/3 border-t-[1px] border-t-primary/30">
                 <span className="text-sm">Acciones:</span>
                 <button
                   onClick={()=>{ window.open(f, '_blank'); }}
