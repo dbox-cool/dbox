@@ -15,6 +15,7 @@ import { Input } from "./Input";
 import { inputfieldVariants } from "./InputfieldVariants";
 import { validateCedula, validatePhone } from "@/dbox/utils/validators";
 import { showWarning } from "@/utils/showToast";
+import { FilesetInput } from "./FilesetInput";
 
 const labelVariants = cva("text-text h-[35px] flex text-sm",
   {variants: {
@@ -93,6 +94,13 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
       });
     
     switch (type) {
+      case "fileset":
+        return <FilesetInput
+          value={watch(id)}
+          setValue={value=>setValue(id, value)}
+        />
+
+        break
       case "textarea":
         if(!options || !options.length)
           return  <textarea
