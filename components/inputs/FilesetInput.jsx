@@ -82,6 +82,9 @@ export const FilesetInput = forwardRef( function FilesetInputComponent({id, valu
         })}
 
         {filesUploaded.map((f, idx) => {
+          // console.log(f)
+          if(typeof f != "string")
+            return
           const parsedURL = new URL(f);
           const pathname = parsedURL.pathname
           const encodedPathPart = pathname.split('/o/')[1];
