@@ -266,6 +266,8 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
                   child_label = child.label;
                   child_id = child?.id?.length? child.id : normalize(child.label);
                   child_id = child?.value?.length? child.value : child_id;
+                  if( !isNaN(child_id) || !isNaN(parseFloat(child_id)) )
+                    child_id = `_${child_id}`
                 }
 
                 return <InputFieldComponent
