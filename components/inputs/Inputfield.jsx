@@ -261,7 +261,6 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
           }else{
             grid_size = "grid-cols-4"
           }
-          console.log(id)
           return <div 
             id={id} 
             className={cn(
