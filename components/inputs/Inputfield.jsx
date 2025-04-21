@@ -95,10 +95,22 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
     
     switch (type) {
       case "fileset":
-        return <FilesetInput
-          value={watch(id)}
-          setValue={value=>setValue(id, value)}
-        />
+        return <div className="w-full">
+          <FilesetInput
+            value={watch(id)}
+            setValue={value=>setValue(id, value)}
+          />
+          <textarea
+            className={cn(inputCurrentVariant,"resize-none h-auto")}
+            placeholder="Observaciones"
+            id={`${id}_notes`}
+            ref={ref}
+            rows="5"
+            readOnly={readOnly}
+            {...register(`${id}_notes`, registerOptions)}
+            {...props}
+          />
+        </div>
 
         break
       case "textarea":
