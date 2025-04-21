@@ -261,6 +261,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
           }else{
             grid_size = "grid-cols-4"
           }
+          console.log(id)
           return <div 
             id={id} 
             className={cn(
@@ -299,6 +300,24 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
                 </InputFieldComponent>
               }
             )}
+            { id === "ANAMNESISYVALORACIONFISICA.VALORES" &&
+              <InputFieldComponent
+                // raw={true}
+                labelSize="fit"
+                labelClassName="text-xs w-1/4 text-right"
+                className={"w-full text-sm overflow-x-visible"}
+                key={`IMCDISPLAY`} 
+                type={"text"}
+                placeholder={0.0}
+                id={"IMCDISPLAY"}
+                direction="horizontal"
+                readOnly={true}
+                disabled={true}
+              >
+                IMC
+              </InputFieldComponent>
+
+            }
           </div>
         }else if(type == "section"){
           // console.log("section", children, type, options)
@@ -324,7 +343,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
 
         if(readOnly)
           return (
-            <div className="w-full h-full">
+            <div className="w-full h-full flex items-center justify-start">
               {
                 currentValue&&currentValue?.trim()?.length?
                   currentValue
