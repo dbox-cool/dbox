@@ -188,13 +188,13 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
           id,
           {
             validate: value => {
-              if(validatePhone(value))
-                return true;
-              const req = registerOptions?.required || props?.required;
-              if(!req && value.trim().length <= 3)
-                return true;
-              showWarning("Número de teléfono inválida");
-              return "Número de teléfono inválido";
+              // if(validatePhone(value))
+                // return true;
+              // const req = registerOptions?.required || props?.required;
+              // if(!req && value?.trim()?.length <= 3)
+                // return true;
+              // showWarning("Número de teléfono inválida");
+              // return "Número de teléfono inválido";
             }
             ,...registerOptions
           }
@@ -259,7 +259,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
           }else if(options.length%4){
             grid_size = "grid-cols-3"
           }else{
-            grid_size = "grid-cols-4"
+            grid_size = "grid-cols-1"
           }
           return <div 
             id={id} 
