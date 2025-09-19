@@ -166,7 +166,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
               const req = registerOptions?.required || props?.required;
               if(!req && value.trim().length <= 1)
                 return true;
-              showWarning("Cédula inválida");
+              // showWarning("Cédula inválida");
               return "Cédula inválida";
             }
             ,...registerOptions
