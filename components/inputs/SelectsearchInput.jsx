@@ -49,7 +49,7 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
       if(!options || !options.length)
         return "No hay opciones...";
 
-      if(!selectedOption || selectedOption.trim() == "")
+      if(!selectedOption || (typeof selectedOption == "string" && (selectedOption?.trim()??"") == ""))
         return placeholder??"Selecciona una opción...";
 
       if(typeof options[0] == "string")
