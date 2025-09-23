@@ -203,7 +203,7 @@ export const Inputfield = forwardRef( function InputFieldComponent ({options, re
           defaultPrefix="424"
           prefixes={["424", "414","422", "412", "212", "416", "426"]}
           readOnly={readOnly}
-          value={String(currentValue)??""}
+          value={currentValue?String(currentValue):""}
           setValue={value=>setValue(id, value)}
           id={id}
           ref={ref}
