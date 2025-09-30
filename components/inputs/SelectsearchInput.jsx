@@ -196,6 +196,10 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
                         setSelectedOption(value);
                         setOpen(false);
                         setOptList(options);
+                      }else{
+                        setSelectedOption(undefined);
+                        setOpen(false);
+                        setOptList(options);
                       }
                     }}
                   >
