@@ -25,53 +25,58 @@ import { FilterList } from "@/dbox/components/inputs/FilterList";
  * @returns {import("react").ReactNode}
  */
 
-export const SelectsearchInput = forwardRef( function SelectsearchInputComponent ({readOnly, options, selectedOption, setSelectedOption, placeholder, direction = "down", onChange, canAddNewOption = false, searchbarThreshold=5, disabled}, ref) {
+export const SelectsearchInput = forwardRef(function SelectsearchInputComponent({ readOnly, options, selectedOption, setSelectedOption, placeholder, direction = "down", onChange, canAddNewOption = false, searchbarThreshold = 5, disabled, defaultValue }, ref) {
 
   const inputClassName = cn("input text-text inline-flex h-[35px] flex-1 items-center justify-center rounded-[4px] px-[10px] text-sm leading-none outline-none border-background border-2");
 
   // handle open/close
   const [open, setOpen] = useState(false);
-  
+
   // current option list
   const [optList, setOptList] = useState(options);
 
   // handle search
-  const searchbarRef = useRef(null);  
-  
+  const searchbarRef = useRef(null);
+
   // handle new option
   const [inputNewOpt, setInputNewOpt] = useState(false);
   /** @type {import("react").Ref<HTMLInputElement>} */
   const newOptRef = useRef(null);
-  
-  const displayValue = useMemo( 
+
+  const displayValue = useMemo(
     () => {
 
-      if(!options || !options.length)
+      if (!options || !options.length)
         return "No hay opciones...";
 
-      if(!selectedOption || (typeof selectedOption == "string" && (selectedOption?.trim()??"") == ""))
-        return placeholder??"Selecciona una opción...";
+      if (!selectedOption || (typeof selectedOption == "string" && (selectedOption?.trim() ?? "") == ""))
+        return placeholder ?? "Selecciona una opción...";
 
-      if(typeof options[0] == "string")
-        return typeof selectedOption == "string"? selectedOption:selectedOption.value;
+      if (typeof options[0] == "string")
+        return typeof selectedOption == "string" ? selectedOption : selectedOption.value;
       else
-        return options.find( opt => normalize(opt.value) == normalize(selectedOption) )?.label
+        return options.find(opt => normalize(opt.value) == normalize(selectedOption))?.label
     },
     [selectedOption, options]
   );
 
   // simulate onChange
   useEffect(() => {
-    if (onChange) onChange({target:{value:selectedOption}});
+    if (onChange) onChange({ target: { value: selectedOption } });
   }, [selectedOption]);
-  
+
   // close if no options
   useEffect(() => {
     setOptList(options);
     if (options.length === 0)
       setOpen(false);
-  }, [options]);  
-  
+  }, [options]);
+
+  useEffect(() => {
+    if (!selectedOption && defaultValue)
+      setSelectedOption(defaultValue);
+  }, [])
+
   // close if click outside
   const selectRef = useRef(null); // Ref for the select component
   useEffect(() => {
@@ -86,43 +91,43 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if(readOnly)
-    return(
+  if (readOnly)
+    return (
       <div className="w-full h-full">
         {
-          displayValue??"No Especificado"
+          displayValue ?? "No Especificado"
         }
       </div>
     );
 
   return (
     <div className="w-full h-full">
-      
+
       {/* NEW OPTION INPUT */}
-      <div className={`input text-text flex-1 items-center justify-between rounded-[4px] text-sm leading-none outline-none border-background border-2 w-full h-full p-0 m-0 ${(canAddNewOption && inputNewOpt)? "inline-flex":"hidden"}`}>
-        <input 
+      <div className={`input text-text flex-1 items-center justify-between rounded-[4px] text-sm leading-none outline-none border-background border-2 w-full h-full p-0 m-0 ${(canAddNewOption && inputNewOpt) ? "inline-flex" : "hidden"}`}>
+        <input
           type="text"
           ref={newOptRef}
           className=" rounded-r-none h-full border-r-0 w-full px-2"
-          onChange={ e => setSelectedOption( e.target.value ) }
+          onChange={e => setSelectedOption(e.target.value)}
           disabled={disabled}
         />
         <Button
           type="button"
-          onClick={ e => { 
-            e.preventDefault(); 
+          onClick={e => {
+            e.preventDefault();
             newOptRef.current.value = "";
             setSelectedOption("");
             setInputNewOpt(false);
-          } }
+          }}
           className="w-fit px-2 h-[35px] rounded-l-none border-background border-2 border-l-0"
           disabled={disabled}
         >
-          <RiArrowGoBackFill/>
+          <RiArrowGoBackFill />
         </Button>
       </div>
-      
-      <div className={cn(inputClassName, `input text-text inline-flex flex-col flex-1 items-center justify-between rounded-[4px] text-sm leading-none outline-none border-background border-2 relative ${(canAddNewOption && inputNewOpt)? "hidden":"inline-flex"}`)} ref={selectRef}>
+
+      <div className={cn(inputClassName, `input text-text inline-flex flex-col flex-1 items-center justify-between rounded-[4px] text-sm leading-none outline-none border-background border-2 relative ${(canAddNewOption && inputNewOpt) ? "hidden" : "inline-flex"}`)} ref={selectRef}>
 
         <div
           onClick={() => {
@@ -134,14 +139,13 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
           className={cn(`flex justify-between items-center w-full h-full ${((Array.isArray(options) && options.length > 0) || Object.keys(options).length > 0) && "hover:cursor-pointer"}`)}
         >
           <p
-            className={`text-sm line-clamp-1 ${ !selectedOption? "text-text/30":"text-text"}`}
+            className={`text-sm line-clamp-1 ${!selectedOption ? "text-text/30" : "text-text"}`}
           >
             {displayValue}
           </p>
           <BiChevronDown
-            className={`${!open && "-rotate-90"} ${
-              open && direction === "up" && "rotate-180"
-            } size-6 text-primary`}
+            className={`${!open && "-rotate-90"} ${open && direction === "up" && "rotate-180"
+              } size-6 text-primary`}
           />
         </div>
 
@@ -152,13 +156,13 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
               setList={setOptList}
               ref={searchbarRef}
               filterList={
-                (oldList, filterValue) => 
+                (oldList, filterValue) =>
                   oldList
-                    .filter( 
-                      item => 
-                        typeof item == "string"?
+                    .filter(
+                      item =>
+                        typeof item == "string" ?
                           normalize(item).includes(filterValue)
-                        :
+                          :
                           normalize(item.label).includes(filterValue)
                     )
               }
@@ -166,9 +170,8 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
           </div>
         }
         <ul
-          className={`bg-foreground overflow-y-auto absolute z-10 w-full text-sm rounded-[4px] customshadow right-0 rounded-t-none ${
-            open ? "max-h-40 p-2" : "max-h-0"
-          } ${direction === "up" ? "bottom-10" : options.length > searchbarThreshold? "top-[4.5rem]" : "top-8"}`}
+          className={`bg-foreground overflow-y-auto absolute z-10 w-full text-sm rounded-[4px] customshadow right-0 rounded-t-none ${open ? "max-h-40 p-2" : "max-h-0"
+            } ${direction === "up" ? "bottom-10" : options.length > searchbarThreshold ? "top-[4.5rem]" : "top-8"}`}
         >
           {
             canAddNewOption &&
@@ -185,18 +188,18 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
           {
             optList.map(
               (option, index) => {
-                const value = typeof option == "string"? option:option?.value;
+                const value = typeof option == "string" ? option : option?.value;
                 const selected = normalize(selectedOption) == normalize(value);
                 return (
                   <li
                     key={index}
-                    className={`relative flex items-center h-fit px-2 pl-8 py-1 rounded-sm text-sm text-text hover:bg-primary/10 focus:outline-none focus:bg-primary/10 cursor-pointer ${selected &&"bg-primary/10"}`}
+                    className={`relative flex items-center h-fit px-2 pl-8 py-1 rounded-sm text-sm text-text hover:bg-primary/10 focus:outline-none focus:bg-primary/10 cursor-pointer ${selected && "bg-primary/10"}`}
                     onClick={() => {
                       if (!selected) {
                         setSelectedOption(value);
                         setOpen(false);
                         setOptList(options);
-                      }else{
+                      } else {
                         setSelectedOption(undefined);
                         setOpen(false);
                         setOptList(options);
@@ -204,7 +207,7 @@ export const SelectsearchInput = forwardRef( function SelectsearchInputComponent
                     }}
                   >
                     {selected && <IoIosCheckmark className="text-primary absolute left-2 size-6" />}
-                    <p className="line-clamp-1">{typeof option == "string"?option:option.label}</p>
+                    <p className="line-clamp-1">{typeof option == "string" ? option : option.label}</p>
                   </li>
                 )
               }
